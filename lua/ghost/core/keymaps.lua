@@ -16,6 +16,9 @@ keymap.set("n", "<leader>nh", ":nohl<CR>")
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
 
+keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>") -- see available code actions
+keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
+
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>") -- increment
 keymap.set("n", "<leader>-", "<C-x>") -- decrement
@@ -72,12 +75,16 @@ keymap.set("n", "<C-s>", "<cmd>w<CR>")
 keymap.set("i", "<C-s>", "<cmd>w<CR>")
 
 -- toggle terminal
-keymap.set("n", "<f7>", ":ToggleTerm<CR>")
-keymap.set("i", "<f7>", "<cmd>ToggleTerm<CR>")
-keymap.set("t", "<f7>", "<cmd>ToggleTerm<CR>")
+keymap.set("n", "<f8>", ":ToggleTerm<CR>")
+keymap.set("i", "<f8>", "<cmd>ToggleTerm<CR>")
+keymap.set("t", "<f8>", "<cmd>ToggleTerm<CR>")
 
 -- control backspace
 keymap.set("i", "<C-BS>", "<C-W>")
 
 -- git
 keymap.set("n", "gd", "<cmd>DiffviewOpen<CR>")
+
+-- trouble
+keymap.set("n", "<f7>", "<cmd>TroubleToggle<CR>")
+keymap.set("i", "<f7>", "<cmd>TroubleToggle<CR>")
