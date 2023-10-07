@@ -35,10 +35,10 @@ keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
 keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
 
 -- buffer keybinding
-keymap.set("n", "bn", ":bnext<CR>") -- go to next buffer
-keymap.set("n", "bp", ":bprevious<CR>") -- go to previous buffer
-keymap.set("n", "bb", ":b#<CR>") -- go to previous buffer
-keymap.set("n", "bc", ":bdelete<CR>") -- close buffer
+keymap.set("n", "<leader>bn", ":bnext<CR>") -- go to next buffer
+keymap.set("n", "<leader>bp", ":bprevious<CR>") -- go to previous buffer
+keymap.set("n", "<leader>bb", ":b#<CR>") -- go to previous buffer
+keymap.set("n", "<leader>bc", ":bdelete<CR>") -- close buffer
 
 ----------------------
 -- Plugin Keybinds
