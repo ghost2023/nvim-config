@@ -76,7 +76,7 @@ keymap.set("i", "<C-s>", "<cmd>w<CR>")
 
 -- toggle terminal
 keymap.set("n", "<f8>", ":ToggleTerm<CR>")
-keymap.set("i", "<f8>", "<cmd>ToggleTerm<CR>")
+keymap.set("i", "<f8>", "<ESC><cmd>ToggleTerm<CR>")
 keymap.set("t", "<f8>", "<cmd>ToggleTerm<CR>")
 
 -- control backspace
