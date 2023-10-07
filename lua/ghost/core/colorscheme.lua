@@ -4,6 +4,6 @@ if not status then
 	return
 end
 
-vim.cmd([[
-  autocmd InsertEnter * hi Cursor guifg=`green` guibg=`green`
-]])
+-- vim.cmd([[
+--   autocmd InsertEnter * hi Cursor guifg=`green` guibg=`green`
+-- ]])
