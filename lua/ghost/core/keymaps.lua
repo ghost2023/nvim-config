@@ -84,6 +84,8 @@ keymap.set("i", "<C-BS>", "<C-W>")
 
 -- git
 keymap.set("n", "gd", "<cmd>DiffviewOpen<CR>")
+keymap.set("n", "gv", "<cmd>Git<CR>")
+keymap.set("n", "gp", "<cmd>:Git push<CR>")
 
 -- trouble
 keymap.set("n", "<f7>", "<cmd>TroubleToggle<CR>")
