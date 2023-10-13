@@ -189,7 +189,16 @@ return packer.startup(function(use)
 	})
 
 	use({ "mg979/vim-visual-multi" })
-
+	use({
+		"rmagatti/auto-session",
+		config = function()
+			require("auto-session").setup({
+				log_level = "error",
+				auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+			})
+		end,
+	})
+	use({ "tpope/vim-fugitive" })
 	if packer_bootstrap then
 		require("packer").sync()
 	end
