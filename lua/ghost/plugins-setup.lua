@@ -111,7 +111,7 @@ return packer.startup(function(use)
 	use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
 	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
 
-	use({ "akinsho/bufferline.nvim", tag = "*", requires = "nvim-tree/nvim-web-devicons" })
+	-- use({ "akinsho/bufferline.nvim", tag = "*", requires = "nvim-tree/nvim-web-devicons" })
 
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
@@ -138,7 +138,7 @@ return packer.startup(function(use)
 		"folke/which-key.nvim",
 		config = function()
 			vim.o.timeout = true
-			vim.o.timeoutlen = 300
+			vim.o.timeoutlen = 600
 			require("which-key").setup({
 				-- your configuration comes here
 				-- or leave it empty to use the default settings
@@ -182,23 +182,64 @@ return packer.startup(function(use)
 		},
 	})
 
-	use({
-		"glepnir/dashboard-nvim",
-		event = "VimEnter",
-		requires = { "nvim-tree/nvim-web-devicons" },
-	})
-
 	use({ "mg979/vim-visual-multi" })
 	use({
 		"rmagatti/auto-session",
+	})
+	use({ "tpope/vim-fugitive" })
+
+	use({
+		"goolord/alpha-nvim",
+		requires = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require("auto-session").setup({
-				log_level = "error",
-				auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+			require("alpha").setup(require("alpha.themes.dashboard").config)
+		end,
+	})
+	use({
+		"folke/todo-comments.nvim",
+		requires = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("todo-comments").setup({
+				-- Configuration here, or leave empty to use defaults
 			})
 		end,
 	})
-	use({ "tpope/vim-fugitive" })
+
+	use({
+		"rebelot/kanagawa.nvim",
+	})
+
+	use("edeneast/nightfox.nvim")
+
+	use({
+		"NeogitOrg/neogit",
+		config = function()
+			require("neogit").setup()
+		end,
+	})
+
+	-- use("rcarriga/nvim-notify")
+	-- use({
+	-- 	"lukas-reineke/indent-blankline.nvim",
+	-- 	config = function()
+	-- 		require("ibl").setup()
+	-- 	end,
+	-- })
+
+	use({
+		"romgrk/barbar.nvim",
+		config = function()
+			require("barbar").setup({
+				sidebar_filetypes = {
+					["nvim-tree"] = true,
+				},
+			})
+		end,
+	})
+
+	use("HiPhish/rainbow-delimiters.nvim")
+
+	use({ "nvim-treesitter/nvim-treesitter-context" })
 	if packer_bootstrap then
 		require("packer").sync()
 	end

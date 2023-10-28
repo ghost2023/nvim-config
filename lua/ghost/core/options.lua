@@ -49,3 +49,5 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 })
 
 opt.whichwrap:append("<,>,[,],h,l")
+
+vim.api.nvim_exec([[ autocmd VimEnter * Alpha ]], false)
