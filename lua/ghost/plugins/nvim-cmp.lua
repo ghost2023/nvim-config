@@ -17,7 +17,8 @@ if not lspkind_status then
 end
 
 -- load vs-code like snippets from plugins (e.g. friendly-snippets)
-require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip/loaders/from_vscode").lazy_load({ "../snippets" })
 
 vim.opt.completeopt = "menu,menuone,noselect"
 
@@ -41,7 +42,7 @@ cmp.setup({
 	-- sources for autocompletion
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" }, -- lsp
-		-- { name = "luasnip" }, -- snippets
+		{ name = "luasnip" }, -- snippets
 		{ name = "buffer" }, -- text within current buffer
 		{ name = "path" }, -- file system paths
 	}),
@@ -50,6 +51,27 @@ cmp.setup({
 		format = lspkind.cmp_format({
 			maxwidth = 50,
 			ellipsis_char = "...",
+		}),
+	},
+})
+
+local snip = luasnip.snippet
+local node = luasnip.snippet_node
+local text = luasnip.text_node
+local insert = luasnip.insert_node
+local func = luasnip.function_node
+local choice = luasnip.choice_node
+local dynamicn = luasnip.dynamic_node
+
+luasnip.add_snippets(nil, {
+	all = {
+		snip({
+			trig = "cl",
+			namr = "console log",
+		}, {
+			text({ "console.log(" }),
+			insert(0),
+			text({ ")" }),
 		}),
 	},
 })
