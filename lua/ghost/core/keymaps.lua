@@ -38,10 +38,10 @@ keymap.set("n", "<leader>bx", ":bdelete<CR>") -- close buffer
 keymap.set("n", "<leader>ww", "<C-w>w")
 
 -- windows move
-keymap.set("n", "<leader>wj", "<C-w>j")
-keymap.set("n", "<leader>wk", "<C-w>k")
-keymap.set("n", "<leader>wh", "<C-w>h")
-keymap.set("n", "<leader>wl", "<C-w>l")
+keymap.set("n", "<C-j>", "<C-w>j", { noremap = true })
+keymap.set("n", "<C-k>", "<C-w>k", { noremap = true })
+keymap.set("n", "<C-h>", "<C-w>h")
+keymap.set("n", "<C-l>", "<C-w>l")
 
 -- window change
 keymap.set("n", "<leader>wr", "<C-w>r")
@@ -63,9 +63,6 @@ keymap.set("n", "<leader>wmw", "<C-w>|")
 
 -- vim-maximizer
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>") -- toggle split window maximization
-
--- nvim-tree
-keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>") -- toggle file explorer
 
 -- telescope
 keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
@@ -97,7 +94,13 @@ keymap.set("i", "<f8>", "<ESC><cmd>ToggleTerm<CR>")
 keymap.set("t", "<f8>", "<cmd>ToggleTerm<CR>")
 
 -- control backspace
-keymap.set("i", "<C-BS>", "<C-W>")
+-- keymap.set("i", "<C-BS>", "<C-w>", { noremap = false, silent = true })
+
+
+-- vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', { noremap = true, silent = true })
+
+-- Enable Ctrl + Backspace to delete a word in insert mode
+-- vim.api.nvim_set_keymap('i', '<C-W>', '<C-w>', { noremap = true, silent = true })
 
 -- git
 keymap.set("n", "gd", "<cmd>DiffviewOpen<CR>")
@@ -109,3 +112,4 @@ keymap.set("n", "<f7>", "<cmd>TroubleToggle<CR>")
 keymap.set("i", "<f7>", "<cmd>TroubleToggle<CR>")
 
 keymap.set("i", "jk", "<ESC>")
+keymap.set("v", "jk", "<ESC>")

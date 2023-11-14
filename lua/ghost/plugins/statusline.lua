@@ -53,8 +53,12 @@ return {
 		lualine.setup({
 			options = {
 				theme = my_lualine_theme,
+        disabled_filetypes = {
+          'NvimTree',
+        }
 			},
 			sections = {
+        lualine_b = {'branch', 'diagnostics'},
         lualine_c = {},
 				lualine_x = {
 					{

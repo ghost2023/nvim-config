@@ -48,7 +48,7 @@ return packer.startup(function(use)
 
 	-- essential plugins
 	-- use("tpope/vim-surround") -- add, delete, change surroundings (it's awesome)
-	use("inkarkat/vim-ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
+	-- use("inkarkat/vim-ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
 
 	-- commenting with gc
 	-- use("numToStr/Comment.nvim")
@@ -67,9 +67,9 @@ return packer.startup(function(use)
 	-- use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
 
 	-- autocompletion
-	use("hrsh7th/nvim-cmp") -- completion plugin
-	use("hrsh7th/cmp-buffer") -- source for text in buffer
-	use("hrsh7th/cmp-path") -- source for file system paths
+	-- use("hrsh7th/nvim-cmp") -- completion plugin
+	-- use("hrsh7th/cmp-buffer") -- source for text in buffer
+	-- use("hrsh7th/cmp-path") -- source for file system paths
 
 	-- -- snippets
 	-- use("L3MON4D3/LuaSnip") -- snippet engine
@@ -112,22 +112,22 @@ return packer.startup(function(use)
 
 	-- auto closing
 	-- use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
-	use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
+	-- use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
 
 	-- use({ "akinsho/bufferline.nvim", tag = "*", requires = "nvim-tree/nvim-web-devicons" })
 
 	-- git integration
 	-- use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
 
-	-- codeium
-	use({
-		"Exafunction/codeium.vim",
-		config = function()
-			vim.keymap.set("i", "<C-i>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true })
-		end,
-	})
+	-- -- codeium
+	-- use({
+	-- 	"Exafunction/codeium.vim",
+	-- 	config = function()
+	-- 		vim.keymap.set("i", "<C-i>", function()
+	-- 			return vim.fn["codeium#Accept"]()
+	-- 		end, { expr = true })
+	-- 	end,
+	-- })
 
 	-- use({
 	-- 	"akinsho/toggleterm.nvim",
@@ -241,17 +241,17 @@ return packer.startup(function(use)
 	-- 	end,
 	-- })
 
-	use("HiPhish/rainbow-delimiters.nvim")
+	-- use("HiPhish/rainbow-delimiters.nvim")
 
-	use({
-		"nvim-treesitter/nvim-treesitter-context",
-		config = function()
-			require("treesitter-context").setup({
-				max_lines = 1,
-				multiline_threshold = 1,
-			})
-		end,
-	})
+	-- use({
+	-- 	"nvim-treesitter/nvim-treesitter-context",
+	-- 	config = function()
+	-- 		require("treesitter-context").setup({
+	-- 			max_lines = 1,
+	-- 			multiline_threshold = 1,
+	-- 		})
+	-- 	end,
+	-- })
 
 	if packer_bootstrap then
 		require("packer").sync()

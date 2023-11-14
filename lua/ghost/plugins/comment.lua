@@ -1,4 +1,13 @@
-return { "numToStr/Comment.nvim" }
+return { "numToStr/Comment.nvim",
+  config = function ()
+    local comment = require("Comment")
+
+    comment.setup({
+      
+    })
+  end
+
+}
 
 -- -- import comment plugin safely
 -- local setup, comment = pcall(require, "Comment")

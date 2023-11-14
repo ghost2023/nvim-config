@@ -1,6 +1,7 @@
 return {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
+  priority = 1000,
 	config = function()
 		local nvimtree = require("nvim-tree")
 
@@ -15,8 +16,8 @@ return {
 		-- configure nvim-tree
 		nvimtree.setup({
 			view = {
-				width = 35,
-				relativenumber = true,
+				width = 32,
+				relativenumber = false,
 			},
 			-- change folder arrow icons
 			renderer = {
@@ -62,13 +63,35 @@ return {
 		) -- toggle file explorer on current file
 		keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
 		keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+
+    local function open_nvim_tree(data)
+      -- buffer is a [No Name]
+      local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
+
+      -- buffer is a directory
+local directory = vim.fn.isdirectory(data.file) == 1
+--
+if not no_name and not directory then
+	return
+end
+--
+-- change to the directory
+if directory then
+	vim.cmd.cd(data.file)
+end
+require("nvim-tree.api").tree.open()
+
+ end
+
+   vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+
 	end,
 }
 
 -- -- import nvim-tree plugin safely
 -- local setup, nvimtree = pcall(require, "nvim-tree")
 -- if not setup then
--- 	return
+-- return
 -- end
 --
 -- -- recommended settings from nvim-tree documentation
@@ -132,4 +155,3 @@ return {
 -- 	require("nvim-tree.api").tree.open()
 -- end
 --
--- vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
