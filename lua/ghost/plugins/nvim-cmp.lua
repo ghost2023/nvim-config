@@ -1,77 +1,135 @@
--- import nvim-cmp plugin safely
-local cmp_status, cmp = pcall(require, "cmp")
-if not cmp_status then
-	return
-end
-
--- import luasnip plugin safely
-local luasnip_status, luasnip = pcall(require, "luasnip")
-if not luasnip_status then
-	return
-end
-
--- import lspkind plugin safely
-local lspkind_status, lspkind = pcall(require, "lspkind")
-if not lspkind_status then
-	return
-end
-
--- load vs-code like snippets from plugins (e.g. friendly-snippets)
--- require("luasnip/loaders/from_vscode").lazy_load()
--- require("luasnip/loaders/from_vscode").lazy_load({ "../snippets" })
-
-vim.opt.completeopt = "menu,menuone,noselect"
-
-cmp.setup({
-	completion = { completeopt = "menu,menuone,noinsert" },
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
+return {
+	"hrsh7th/nvim-cmp",
+	event = "InsertEnter",
+	dependencies = {
+		"hrsh7th/cmp-buffer", -- source for text in buffer
+		"hrsh7th/cmp-path", -- source for file system paths
+		"L3MON4D3/LuaSnip", -- snippet engine
+		"saadparwaiz1/cmp_luasnip", -- for autocompletion
+		"rafamadriz/friendly-snippets", -- useful snippets
+		"onsails/lspkind.nvim", -- vs-code like pictograms
 	},
-	mapping = cmp.mapping.preset.insert({
-		-- ["Tab"] = false,
-		["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-		["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-		["<C-e>"] = cmp.mapping.abort(), -- close completion window
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
-	}),
-	-- sources for autocompletion
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" }, -- lsp
-		{ name = "luasnip" }, -- snippets
-		{ name = "buffer" }, -- text within current buffer
-		{ name = "path" }, -- file system paths
-	}),
-	-- configure lspkind for vs-code like icons
-	formatting = {
-		format = lspkind.cmp_format({
-			maxwidth = 50,
-			ellipsis_char = "...",
-		}),
-	},
-})
+	config = function()
+		local cmp = require("cmp")
 
-local snip = luasnip.snippet
-local node = luasnip.snippet_node
-local text = luasnip.text_node
-local insert = luasnip.insert_node
-local func = luasnip.function_node
-local choice = luasnip.choice_node
-local dynamicn = luasnip.dynamic_node
+		local luasnip = require("luasnip")
 
-luasnip.add_snippets(nil, {
-	all = {
-		snip({
-			trig = "cl",
-			namr = "console log",
-		}, {
-			text({ "console.log(" }),
-			insert(0),
-			text({ ")" }),
-		}),
-	},
-})
+		local lspkind = require("lspkind")
+
+		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
+		require("luasnip.loaders.from_vscode").lazy_load()
+
+		-- 	completion = { completeopt = "menu,menuone,noinsert" },
+		cmp.setup({
+			completion = {
+				completeopt = "menu,menuone,noinsert",
+			},
+			snippet = { -- configure how nvim-cmp interacts with snippet engine
+				expand = function(args)
+					luasnip.lsp_expand(args.body)
+				end,
+			},
+			mapping = cmp.mapping.preset.insert({
+				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+				["<C-b>"] = cmp.mapping.scroll_docs(-4),
+				["<C-f>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+				["<C-e>"] = cmp.mapping.abort(), -- close completion window
+				["<CR>"] = cmp.mapping.confirm({ select = false }),
+			}),
+			-- sources for autocompletion
+			sources = cmp.config.sources({
+				{ name = "nvim_lsp" },
+				{ name = "luasnip" }, -- snippets
+				{ name = "buffer" }, -- text within current buffer
+				{ name = "path" }, -- file system paths
+			}),
+			-- configure lspkind for vs-code like pictograms in completion menu
+			formatting = {
+				format = lspkind.cmp_format({
+					maxwidth = 50,
+					ellipsis_char = "...",
+				}),
+			},
+		})
+
+		local snip = luasnip.snippet
+		local node = luasnip.snippet_node
+		local text = luasnip.text_node
+		local insert = luasnip.insert_node
+		local func = luasnip.function_node
+		local choice = luasnip.choice_node
+		local dynamicn = luasnip.dynamic_node
+
+		luasnip.add_snippets(nil, {
+			all = {
+				snip({
+					trig = "cl",
+					namr = "console log",
+				}, {
+					text({ "console.log(" }),
+					insert(0),
+					text({ ")" }),
+				}),
+			},
+		})
+	end,
+}
+
+-- -- import nvim-cmp plugin safely
+-- local cmp_status, cmp = pcall(require, "cmp")
+-- if not cmp_status then
+-- 	return
+-- end
+--
+-- -- import luasnip plugin safely
+-- local luasnip_status, luasnip = pcall(require, "luasnip")
+-- if not luasnip_status then
+-- 	return
+-- end
+--
+-- -- import lspkind plugin safely
+-- local lspkind_status, lspkind = pcall(require, "lspkind")
+-- if not lspkind_status then
+-- 	return
+-- end
+--
+-- -- load vs-code like snippets from plugins (e.g. friendly-snippets)
+-- -- require("luasnip/loaders/from_vscode").lazy_load()
+-- -- require("luasnip/loaders/from_vscode").lazy_load({ "../snippets" })
+--
+-- vim.opt.completeopt = "menu,menuone,noselect"
+--
+-- cmp.setup({
+-- 	completion = { completeopt = "menu,menuone,noinsert" },
+-- 	snippet = {
+-- 		expand = function(args)
+-- 			luasnip.lsp_expand(args.body)
+-- 		end,
+-- 	},
+-- 	mapping = cmp.mapping.preset.insert({
+-- 		-- ["Tab"] = false,
+-- 		["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+-- 		["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+-- 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+-- 		["<C-f>"] = cmp.mapping.scroll_docs(4),
+-- 		["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+-- 		["<C-e>"] = cmp.mapping.abort(), -- close completion window
+-- 		["<CR>"] = cmp.mapping.confirm({ select = true }),
+-- 	}),
+-- 	-- sources for autocompletion
+-- 	sources = cmp.config.sources({
+-- 		{ name = "nvim_lsp" }, -- lsp
+-- 		{ name = "luasnip" }, -- snippets
+-- 		{ name = "buffer" }, -- text within current buffer
+-- 		{ name = "path" }, -- file system paths
+-- 	}),
+-- 	-- configure lspkind for vs-code like icons
+-- 	formatting = {
+-- 		format = lspkind.cmp_format({
+-- 			maxwidth = 50,
+-- 			ellipsis_char = "...",
+-- 		}),
+-- 	},
+-- })
