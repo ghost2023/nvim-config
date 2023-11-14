@@ -101,6 +101,9 @@ return packer.startup(function(use)
 	-- treesitter configuration
 	use({
 		"nvim-treesitter/nvim-treesitter",
+		requires = {
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
 		run = function()
 			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
 			ts_update()
@@ -192,7 +195,7 @@ return packer.startup(function(use)
 		"goolord/alpha-nvim",
 		requires = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			require("alpha").setup(require("alpha.themes.dashboard").config)
+			require("alpha").setup(require("alpha.themes.startify").config)
 		end,
 	})
 	use({
@@ -239,7 +242,15 @@ return packer.startup(function(use)
 
 	use("HiPhish/rainbow-delimiters.nvim")
 
-	use({ "nvim-treesitter/nvim-treesitter-context" })
+	use({
+		"nvim-treesitter/nvim-treesitter-context",
+		config = function()
+			require("treesitter-context").setup({
+				max_lines = 1,
+				multiline_threshold = 1,
+			})
+		end,
+	})
 	if packer_bootstrap then
 		require("packer").sync()
 	end
