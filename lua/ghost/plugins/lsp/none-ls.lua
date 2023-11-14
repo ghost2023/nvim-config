@@ -1,7 +1,7 @@
 return {
 	"nvimtools/none-ls.nvim", -- configure formatters & linters
 	lazy = true,
-	-- event = { "BufReadPre", "BufNewFile" }, -- to enable uncomment this
+	event = { "BufReadPre", "BufNewFile" }, -- to enable uncomment this
 	dependencies = {
 		"jay-babu/mason-null-ls.nvim",
 	},
@@ -58,6 +58,10 @@ return {
 						group = augroup,
 						buffer = bufnr,
 						callback = function()
+							vim.lsp.buf.execute_command({
+								command = "_typescript.organizeImports",
+								arguments = { vim.fn.expand("%:p") },
+							})
 							vim.lsp.buf.format({
 								filter = function(client)
 									--  only use null-ls for formatting instead of lsp server
