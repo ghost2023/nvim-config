@@ -81,8 +81,8 @@ keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current c
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
 
 -- force quit
-keymap.set("n", "<C-q>", ":qa!<CR>")
-keymap.set("i", "<C-q>", "<cmd>qa!<CR>")
+keymap.set("n", "<C-q>", ":qa<CR>")
+keymap.set("i", "<C-q>", "<cmd>qa<CR>")
 
 -- save
 keymap.set("n", "<C-s>", "<cmd>w<CR>")
@@ -95,7 +95,6 @@ keymap.set("t", "<f8>", "<cmd>ToggleTerm<CR>")
 
 -- control backspace
 -- keymap.set("i", "<C-BS>", "<C-w>", { noremap = false, silent = true })
-
 
 -- vim.api.nvim_set_keymap('i', '<C-BS>', '<C-w>', { noremap = true, silent = true })
 
