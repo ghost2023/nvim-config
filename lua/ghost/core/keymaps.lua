@@ -85,7 +85,10 @@ keymap.set("n", "<C-q>", ":qa<CR>")
 keymap.set("i", "<C-q>", "<cmd>qa<CR>")
 
 -- save
-keymap.set("n", "<C-s>", "<cmd>w<CR>")
+keymap.set("n", "<leader>ss", "<cmd>w<CR>")
+keymap.set("v", "<leader>ss", "<cmd>w<CR>")
+keymap.set("n", "<C-s>", "<ESC><cmd>w<CR>")
+keymap.set("v", "<C-s>", "<ESC><cmd>w<CR>")
 keymap.set("i", "<C-s>", "<ESC><cmd>w<CR>")
 
 -- toggle terminal
