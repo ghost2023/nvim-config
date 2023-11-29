@@ -1,12 +1,12 @@
-return { "numToStr/Comment.nvim",
-  config = function ()
-    local comment = require("Comment")
+return {
+	"numToStr/Comment.nvim",
+	config = function()
+		local comment = require("Comment")
 
-    comment.setup({
-      
-    })
-  end
-
+		comment.setup({
+			pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+		})
+	end,
 }
 
 -- -- import comment plugin safely
