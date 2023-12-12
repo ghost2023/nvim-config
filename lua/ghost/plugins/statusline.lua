@@ -67,7 +67,7 @@ return {
 					-- },
 					-- { "filetype" },
 				},
-				lualine_y = {},
+				lualine_z = {},
 			},
 		})
 	end,
