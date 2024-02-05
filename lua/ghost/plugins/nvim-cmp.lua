@@ -58,6 +58,10 @@ return {
 					luasnip.lsp_expand(args.body)
 				end,
 			},
+			window = {
+				completion = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
 			mapping = cmp.mapping.preset.insert({
 				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
 				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
@@ -79,27 +83,6 @@ return {
 				format = lspkind.cmp_format({
 					maxwidth = 50,
 					ellipsis_char = "...",
-				}),
-			},
-		})
-
-		local snip = luasnip.snippet
-		local node = luasnip.snippet_node
-		local text = luasnip.text_node
-		local insert = luasnip.insert_node
-		local func = luasnip.function_node
-		local choice = luasnip.choice_node
-		local dynamicn = luasnip.dynamic_node
-
-		luasnip.add_snippets(nil, {
-			all = {
-				snip({
-					trig = "cl",
-					namr = "console log",
-				}, {
-					text({ "console.log(" }),
-					insert(0),
-					text({ ")" }),
 				}),
 			},
 		})
