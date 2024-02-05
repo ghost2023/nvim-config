@@ -1,4 +1,36 @@
 return {
+	-- "nvim-neo-tree/neo-tree.nvim",
+	-- branch = "v3.x",
+	-- dependencies = {
+	-- 	"nvim-lua/plenary.nvim",
+	-- 	"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+	-- 	"MunifTanjim/nui.nvim",
+	-- 	-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+	-- },
+	--
+	-- config = function()
+	-- 	-- require("")
+	-- 	require("neo-tree").setup({
+	-- 		source_selector = {
+	-- 			winbar = true,
+	-- 		},
+	--
+	-- 		filesystem = {
+	-- 			filtered_items = {
+	-- 				hide_dotfiles = false,
+	-- 				hide_gitignored = false,
+	-- 				hide_hidden = false,
+	-- 				hide_by_name = {
+	-- 					".DS_Store",
+	-- 					"thumbs.db",
+	-- 					"node_modules",
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	})
+	-- 	vim.keymap.set("n", "<leader>ee", "<cmd>Neotree toggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
+	-- end,
+	--
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	priority = 1000,
@@ -24,14 +56,16 @@ return {
 				indent_markers = {
 					enable = true,
 				},
-				-- icons = {
-				-- 	glyphs = {
-				-- 		folder = {
-				-- 			arrow_closed = "", -- arrow when folder is closed
-				-- 			arrow_open = "", -- arrow when folder is open
-				-- 		},
-				-- 	},
-				-- },
+				icons = {
+					glyphs = {
+						folder = {
+							arrow_closed = "", -- arrow when folder is closed
+							arrow_open = "", -- arrow when folder is open
+							-- arrow_closed = "", -- arrow when folder is closed
+							-- arrow_open = "", -- arrow when folder is open
+						},
+					},
+				},
 			},
 			-- disable window_picker for
 			-- explorer to work well with
@@ -44,7 +78,7 @@ return {
 				},
 			},
 			filters = {
-				custom = { ".DS_Store" },
+				custom = { ".DS_Store", "node_modules" },
 			},
 			git = {
 				ignore = false,
