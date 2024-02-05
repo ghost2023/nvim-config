@@ -32,4 +32,5 @@ return {
 	{ "vigoux/oak" },
 	{ "sainnhe/edge" },
 	{ "ellisonleao/gruvbox.nvim" },
+	{ "projekt0n/github-nvim-theme" },
 }
