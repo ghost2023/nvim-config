@@ -89,6 +89,17 @@ return {
 			on_attach = on_attach,
 		})
 
+		-- configure go server with plugin
+		lspconfig["gopls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		lspconfig.eslint.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
 		-- configure css server
 		lspconfig["cssls"].setup({
 			capabilities = capabilities,
@@ -97,6 +108,12 @@ return {
 
 		-- configure tailwindcss server
 		lspconfig["tailwindcss"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- configure tailwindcss server
+		lspconfig["sqlls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
@@ -135,7 +152,7 @@ return {
 		lspconfig["emmet_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+			filetypes = { "html", "css", "sass", "scss", "less", "svelte" },
 		})
 
 		-- configure python server
@@ -163,6 +180,18 @@ return {
 					},
 				},
 			},
+		})
+
+		-- configure cpp server
+		lspconfig["clangd"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- configure java server
+		lspconfig["jdtls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
 		})
 	end,
 }
