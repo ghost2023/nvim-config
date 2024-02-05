@@ -85,6 +85,7 @@ keymap.set("n", "<C-q>", ":qa<CR>")
 keymap.set("i", "<C-q>", "<cmd>qa<CR>")
 
 -- save
+-- keymap.set("i", "/ss", "<ESC><cmd>w<CR>")
 keymap.set("n", "<leader>ss", "<cmd>w<CR>")
 keymap.set("v", "<leader>ss", "<cmd>w<CR>")
 keymap.set("n", "<C-s>", "<ESC><cmd>w<CR>")
@@ -114,4 +115,4 @@ keymap.set("n", "<f7>", "<cmd>TroubleToggle<CR>")
 keymap.set("i", "<f7>", "<cmd>TroubleToggle<CR>")
 
 keymap.set("i", "jk", "<ESC>")
-keymap.set("v", "jk", "<ESC>")
+-- keymap.set("v", "jk", "<ESC>")
