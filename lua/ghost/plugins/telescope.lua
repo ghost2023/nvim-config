@@ -60,7 +60,7 @@ return {
 		keymap.set("n", "<leader>fj", "<cmd>Telescope jumplist<cr>", { desc = "Jumplist" })
 		keymap.set("n", "<leader>fg", "<cmd>Telescope registers<cr>", { desc = "registers" })
 		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set("n", "<leader>fs", telescope_resume, { desc = "Find string in cwd" })
+		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
 		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
 		keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", { desc = " string under cursor in cwd" })
 	end,
