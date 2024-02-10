@@ -105,10 +105,10 @@ keymap.set("t", "<f8>", "<cmd>ToggleTerm<CR>")
 -- Enable Ctrl + Backspace to delete a word in insert mode
 -- vim.api.nvim_set_keymap('i', '<C-W>', '<C-w>', { noremap = true, silent = true })
 
--- git
-keymap.set("n", "gd", "<cmd>DiffviewOpen<CR>")
-keymap.set("n", "gv", "<cmd>Git<CR>")
-keymap.set("n", "gp", "<cmd>:Git push<CR>")
+-- -- git
+-- keymap.set("n", "gd", "<cmd>DiffviewOpen<CR>")
+-- keymap.set("n", "gv", "<cmd>Git<CR>")
+-- keymap.set("n", "gp", "<cmd>:Git push<CR>")
 
 -- trouble
 keymap.set("n", "<f7>", "<cmd>TroubleToggle<CR>")
