@@ -20,13 +20,13 @@ return {
 	{ "EdenEast/nightfox.nvim" },
 	{
 		"rose-pine/neovim",
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			vim.cmd([[colorscheme rose-pine-main]])
-		end,
 	},
 	{
 		"tiagovla/tokyodark.nvim",
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			vim.cmd([[colorscheme tokyodark]])
+		end,
 	},
 	{ "projekt0n/github-nvim-theme" },
 }
