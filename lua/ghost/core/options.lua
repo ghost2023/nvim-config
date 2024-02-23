@@ -50,4 +50,12 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 
 opt.whichwrap:append("<,>,[,],h,l")
 
--- vim.api.nvim_exec([[ autocmd VimEnter Alpha ]], false)
+opt.scrolloff = 8
+
+opt.guicursor = {
+	"n-v-c:block",
+	"i-ci-ve:ver25",
+	"r-cr:hor20",
+	"o:hor25",
+	"a:blinkwait700-blinkoff400-blinkon250",
+}
