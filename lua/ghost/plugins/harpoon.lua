@@ -26,24 +26,6 @@ return {
 					}),
 					previewer = conf.file_previewer({}),
 					sorter = conf.generic_sorter({}),
-
-					-- attach_mappings = function(_, map)
-					-- 	map("n", "h", function()
-					-- 		print(_)
-					-- 	end)
-					-- 	return true
-					-- end,
-					--
-					--                 map("i", "<c-d>", delete_harpoon_mark)
-					--                 map("n", "<c-d>", delete_harpoon_mark)
-					--
-					--                 map("i", "<c-p>", move_mark_up)
-					--                 map("n", "<c-p>", move_mark_up)
-					--
-					--                 map("i", "<c-n>", move_mark_down)
-					--                 map("n", "<c-n>", move_mark_down)
-					--                 return true
-					--             end
 				})
 				:find()
 		end
