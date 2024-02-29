@@ -39,9 +39,11 @@ return {
 		})
 
 		for _, value in pairs(ensure_installed) do
-			lspconfig[value].setup({
-				capabilities = capabilities,
-			})
+			if value ~= "emmet_ls" then
+				lspconfig[value].setup({
+					capabilities = capabilities,
+				})
+			end
 		end
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
