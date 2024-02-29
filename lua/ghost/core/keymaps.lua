@@ -74,7 +74,7 @@ keymap.set("n", "<C-q>", ":qa<CR>")
 keymap.set("i", "<C-q>", "<cmd>qa<CR>")
 
 -- save
-keymap.set("n", "<leader>t", "<cmd>w<CR>")
+keymap.set("n", "<leader>s", "<cmd>w<CR>")
 keymap.set("n", "<C-s>", "<ESC><cmd>w<CR>")
 keymap.set("i", "<C-s>", "<ESC><cmd>w<CR>")
 
