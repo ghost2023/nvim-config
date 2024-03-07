@@ -126,3 +126,12 @@ keymap.set("n", "<leader>oi", function()
 		arguments = { vim.fn.expand("%:p") },
 	})
 end, opts)
+
+keymap.set("n", "zk", function()
+	local winid = require("ufo").peekFoldedLinesUnderCursor()
+	if not winid then
+		-- choose one of coc.nvim and nvim lsp
+		vim.fn.CocActionAsync("definitionHover") -- coc.nvim
+		vim.lsp.buf.hover()
+	end
+end)
