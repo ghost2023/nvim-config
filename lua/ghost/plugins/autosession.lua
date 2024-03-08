@@ -5,10 +5,12 @@ return {
 		local auto_session = require("auto-session")
 
 		auto_session.setup({
-			auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
+			auto_session_suppress_dirs = { "~/", "~/Downloads", "~/Documents", "~/Desktop/" },
+			log_level = "error",
+			auto_save_enabled = true,
 			session_lens = {
 				buftypes_to_ignore = {},
-				load_on_setup = true,
+				load_on_setup = false,
 				theme_conf = { border = true },
 				previewer = false,
 			},
