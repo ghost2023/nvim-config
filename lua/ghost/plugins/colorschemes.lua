@@ -1,8 +1,5 @@
 return {
 	{
-		"bluz71/vim-nightfly-guicolors",
-	},
-	{
 		"navarasu/onedark.nvim",
 		config = function()
 			require("onedark").setup({
@@ -10,17 +7,17 @@ return {
 			})
 		end,
 	},
-	{ "AlexvZyl/nordic.nvim" },
+	{
+		"w0ng/vim-hybrid",
+	},
 	{ "Mofiqul/vscode.nvim" },
-	{ "Mofiqul/adwaita.nvim" },
+	{ "rafalbromirski/vim-aurora" },
 	{ "catppuccin/nvim", as = "catppuccin" },
-	{ "bluz71/vim-nightfly-guicolors" },
+	{ "nanotech/jellybeans.vim" },
 	{ "folke/tokyonight.nvim" },
 	{ "rebelot/kanagawa.nvim" },
 	{ "EdenEast/nightfox.nvim" },
-	{
-		"rose-pine/neovim",
-	},
+	{ "rose-pine/neovim" },
 	{
 		"tiagovla/tokyodark.nvim",
 		priority = 1000, -- make sure to load this before all the other start plugins
