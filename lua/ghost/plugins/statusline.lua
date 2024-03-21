@@ -57,11 +57,19 @@ return {
 				},
 			},
 			sections = {
-				lualine_b = { "branch" },
+				lualine_b = {
+					{
+						"filename",
+						file_status = true,
+						path = 1,
+						hide_filename_extension = true,
+					},
+					"`diagnostics`",
+				},
 				lualine_c = {},
 				lualine_x = {},
-				lualine_y = {},
-				lualine_z = {},
+				lualine_y = { "diff" },
+				lualine_z = { "branch" },
 			},
 		})
 	end,
