@@ -10,6 +10,16 @@ return {
 	{
 		"w0ng/vim-hybrid",
 	},
+	{ "rockyzhang24/arctic.nvim" },
+	{
+		"marko-cerovac/material.nvim",
+		config = function()
+			vim.cmd("colorscheme material-deep-ocean")
+		end,
+		priority = 1000, -- make sure to load this before all the other start plugins
+	},
+	{ "sainnhe/edge" },
+	{ "ray-x/starry.nvim" },
 	{ "Mofiqul/vscode.nvim" },
 	{ "rafalbromirski/vim-aurora" },
 	{ "catppuccin/nvim", as = "catppuccin" },
@@ -20,10 +30,6 @@ return {
 	{ "rose-pine/neovim" },
 	{
 		"tiagovla/tokyodark.nvim",
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			vim.cmd([[colorscheme tokyodark]])
-		end,
 	},
 	{ "projekt0n/github-nvim-theme" },
 }
