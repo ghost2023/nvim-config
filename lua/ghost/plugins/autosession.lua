@@ -7,7 +7,7 @@ return {
 		auto_session.setup({
 			auto_session_suppress_dirs = { "~/", "~/Downloads", "~/Documents", "~/Desktop/" },
 			log_level = "error",
-			auto_save_enabled = true,
+			auto_save_enabled = false,
 			session_lens = {
 				buftypes_to_ignore = {},
 				load_on_setup = false,
@@ -19,7 +19,7 @@ return {
 		local keymap = vim.keymap
 
 		keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
-		keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
+
 		keymap.set(
 			"n",
 			"<leader>wl",
