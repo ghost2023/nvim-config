@@ -20,19 +20,16 @@ keymap.set("n", "x", '"_x')
 keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>") -- see available code actions
 keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
 
-keymap.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
+keymap.set("n", "<leader>tn", ":tabnew<CR>") -- open new tab
 keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-keymap.set("n", "<leader>tn", ":tabn<CR>") --  go to next tab
-keymap.set("n", "<leader>tp", ":tabp<CR>") --  go to previous tab
+keymap.set("n", "<leader>tj", ":tabn<CR>") --  go to next tab
+keymap.set("n", "<leader>tk", ":tabp<CR>") --  go to previous tab
 
 -- buffer keybinding
-keymap.set("n", "<leader>bn", ":bnext<CR>") -- go to next buffer
-keymap.set("n", "<leader>bp", ":bprevious<CR>") -- go to previous buffer
-keymap.set("n", "<leader>bb", ":b#<CR>") -- go to previous buffer
-keymap.set("n", "<leader>bx", ":bdelete<CR>") -- close buffer
-
 keymap.set("n", "<leader>k", ":bprevious<CR>") -- go to previous buffer
 keymap.set("n", "<leader>j", ":bnext<CR>") -- go to next buffer
+keymap.set("n", "<leader>bb", ":b#<CR>") -- go to previous buffer
+keymap.set("n", "<leader>bx", ":bdelete<CR>") -- close buffer
 
 -- windows keybinding
 keymap.set("n", "<leader>ww", "<C-w>w")
@@ -56,6 +53,9 @@ keymap.set("n", "<leader>ws", "<C-w>s")
 ----------------------
 -- Plugin Keybinds
 ----------------------
+
+-- undotree
+keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>")
 
 -- telescope
 keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
