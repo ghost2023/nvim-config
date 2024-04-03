@@ -9,6 +9,11 @@ return {
 		-- configure/enable toggleterm
 		toggleterm.setup({
 			direction = "float",
+			float_opts = {
+				direction = "curved",
+				width = 115,
+				height = 26,
+			},
 		})
 	end,
 }
