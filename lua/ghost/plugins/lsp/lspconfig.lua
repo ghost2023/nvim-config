@@ -22,7 +22,7 @@ return {
 			"html",
 			"cssls",
 			"tailwindcss",
-			"eslint",
+			-- "eslint",
 			"clangd",
 			"lua_ls",
 			"gopls",
@@ -67,6 +67,34 @@ return {
 				})
 			end,
 		})
+
+		-- configure svelte server
+		lspconfig["rust_analyzer"].setup({
+			capabilities = capabilities,
+			settings = {
+				["rust-analyzer"] = {
+					assist = {
+						importEnforceGranularity = true,
+						importPrefix = "crate",
+					},
+					cargo = {
+						allFeatures = true,
+					},
+					checkOnSave = {
+						command = "clippy",
+					},
+					inlayHints = { locationLinks = false },
+					diagnostics = {
+						enable = true,
+						experimental = {
+							enable = true,
+						},
+					},
+				},
+			},
+		})
+
+		local util = require("lspconfig/util")
 
 		-- configure emmet language server
 		lspconfig["emmet_ls"].setup({
