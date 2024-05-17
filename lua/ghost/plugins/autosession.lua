@@ -7,7 +7,8 @@ return {
 		auto_session.setup({
 			auto_session_suppress_dirs = { "~/", "~/Downloads", "~/Documents", "~/Desktop/" },
 			log_level = "error",
-			auto_save_enabled = false,
+			auto_save_enabled = true,
+			auto_restore_enabled = false,
 			session_lens = {
 				buftypes_to_ignore = {},
 				load_on_setup = false,
