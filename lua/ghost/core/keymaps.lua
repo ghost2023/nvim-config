@@ -10,6 +10,8 @@ local opts = { noremap = true, silent = true }
 
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
+keymap.set("t", "jk", "<C-\\><C-n>")
+keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>")
@@ -29,7 +31,7 @@ keymap.set("n", "<leader>tk", ":tabp<CR>") --  go to previous tab
 keymap.set("n", "<leader>k", ":bprevious<CR>") -- go to previous buffer
 keymap.set("n", "<leader>j", ":bnext<CR>") -- go to next buffer
 keymap.set("n", "<leader>bb", ":b#<CR>") -- go to previous buffer
-keymap.set("n", "<leader>bx", ":bdelete<CR>") -- close buffer
+keymap.set("n", "<leader>x", ":Bwipeout<CR>") -- close buffer
 
 -- windows keybinding
 keymap.set("n", "<leader>ww", "<C-w>w")
@@ -39,6 +41,11 @@ keymap.set("n", "<C-j>", "<C-w>j", { noremap = true })
 keymap.set("n", "<C-k>", "<C-w>k", { noremap = true })
 keymap.set("n", "<C-h>", "<C-w>h")
 keymap.set("n", "<C-l>", "<C-w>l")
+
+keymap.set("t", "<C-j>", "<C-w>j", { noremap = true })
+keymap.set("t", "<C-k>", "<C-w>k", { noremap = true })
+keymap.set("t", "<C-h>", "<C-w>h")
+keymap.set("t", "<C-l>", "<C-w>l")
 
 -- window change
 keymap.set("n", "<leader>wr", "<C-w>r")
