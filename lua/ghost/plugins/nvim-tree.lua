@@ -12,8 +12,9 @@ return {
 		-- configure nvim-tree
 		nvimtree.setup({
 			view = {
+				side = "right",
 				-- width = 32,
-				relativenumber = false,
+				relativenumber = true,
 			},
 			-- change folder arrow icons
 			renderer = {
@@ -21,6 +22,7 @@ return {
 					enable = true,
 				},
 				icons = {
+					git_placement = "signcolumn",
 					glyphs = {
 						folder = {
 							arrow_closed = "", -- arrow when folder is closed
@@ -38,9 +40,8 @@ return {
 			},
 			filters = {
 				custom = { ".DS_Store", "node_modules" },
-			},
-			git = {
-				ignore = false,
+				dotfiles = true,
+				-- git_ignored = true
 			},
 		})
 
