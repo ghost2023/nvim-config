@@ -11,6 +11,8 @@ local opts = { noremap = true, silent = true }
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
 keymap.set("t", "jk", "<C-\\><C-n>")
+
+keymap.set("i", "kj", "<ESC><cmd>silent w | echo 'saved'<CR>")
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- clear search highlights
@@ -82,8 +84,7 @@ keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if ne
 keymap.set("n", "<C-q>", ":qa<CR>")
 keymap.set("i", "<C-q>", "<cmd>qa<CR>")
 
--- save
-keymap.set("n", "<leader>s", "<cmd>silent w | echo 'saved'<CR>")
+-- save keymap.set("n", "<leader>s", "<cmd>silent w | echo 'saved'<CR>")
 keymap.set("n", "<C-s>", "<ESC><cmd>silent w | echo 'saved'<CR>")
 keymap.set("i", "<C-s>", "<ESC><cmd>silent w | echo 'saved'<CR>")
 
