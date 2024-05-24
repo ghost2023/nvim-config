@@ -54,6 +54,7 @@ return {
 				theme = my_lualine_theme,
 				disabled_filetypes = {
 					"NvimTree",
+					"alpha",
 				},
 			},
 			sections = {
