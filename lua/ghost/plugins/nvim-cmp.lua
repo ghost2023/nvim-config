@@ -26,27 +26,13 @@ return {
 		local lspkind = require("lspkind")
 
 		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-		require("luasnip.loaders.from_vscode").lazy_load()
+		require("luasnip.loaders.from_vscode").lazy_load({ path = "~/.config/nvim/snippets" })
 
 		cmp.setup({
 
-			-- sorting = {
-			-- 	priority_weight = 2,
-			-- 	comparators = {
-			-- 		deprioritize_snippet,
-			-- 		-- the rest of the comparators are pretty much the defaults
-			-- 		cmp.config.compare.offset,
-			-- 		cmp.config.compare.exact,
-			-- 		cmp.config.compare.scopes,
-			-- 		cmp.config.compare.score,
-			-- 		cmp.config.compare.recently_used,
-			-- 		cmp.config.compare.locality,
-			-- 		cmp.config.compare.kind,
-			-- 		cmp.config.compare.sort_text,
-			-- 		cmp.config.compare.length,
-			-- 		cmp.config.compare.order,
-			-- 	},
-			-- },
+			sorting = {
+				priority_weight = 0,
+			},
 
 			completion = {
 				completeopt = "menu,menuone,noinsert",
@@ -68,11 +54,18 @@ return {
 				["<S-Tab>"] = cmp.mapping.complete(), -- show completion suggestions
 				["<C-e>"] = cmp.mapping.abort(), -- close completion window
 				["<CR>"] = cmp.mapping.confirm({ select = false }),
+				["<Tab>"] = cmp.mapping(function(fallback)
+					if luasnip.locally_jumpable(1) then
+						luasnip.jump(1)
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
 			}),
 			-- sources for autocompletion
 			sources = cmp.config.sources({
+				{ name = "nvim_lsp", priority = 9 },
 				{ name = "luasnip" }, -- snippets
-				{ name = "nvim_lsp" },
 				{ name = "vim-dadbod-completion" }, -- sql
 				{ name = "buffer" }, -- text within current buffer
 				{ name = "path" }, -- file system paths
@@ -80,8 +73,17 @@ return {
 			-- configure lspkind for vs-code like pictograms in completion menu
 			formatting = {
 				format = lspkind.cmp_format({
-					maxwidth = 50,
+					maxwidth = 30,
 					ellipsis_char = "...",
+					before = function(_, vim_item)
+						vim_item.menu = ""
+						-- local limit = 20
+						-- local str_len = string.len(vim_item.menu)
+						-- if str_len > limit then
+						-- 	vim_item.menu = string.sub(vim_item.menu, 1, limit - 3) .. "…"
+						-- end
+						return vim_item
+					end,
 				}),
 			},
 		})
