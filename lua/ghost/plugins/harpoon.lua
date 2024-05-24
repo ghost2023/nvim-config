@@ -29,7 +29,7 @@ return {
 				})
 				:find()
 		end
-		vim.keymap.set("n", "<leader>x", function()
+		vim.keymap.set("n", "<leader>hx", function()
 			harpoon:list():remove()
 		end, { desc = "Harpoon Unmark" })
 		vim.keymap.set("n", "<leader>fh", function()
