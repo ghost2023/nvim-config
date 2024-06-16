@@ -14,6 +14,7 @@ return {
 
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
+    vim.lsp.inlay_hint.enable()
 
 		-- import mason-lspconfig
 		local mason_lspconfig = require("mason-lspconfig")
@@ -46,13 +47,6 @@ return {
 			end
 		end
 
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
-
 		-- configure svelte server
 		lspconfig["svelte"].setup({
 			capabilities = capabilities,
@@ -68,7 +62,7 @@ return {
 			end,
 		})
 
-		-- configure svelte server
+		-- configure rust_analyzer server
 		lspconfig["rust_analyzer"].setup({
 			capabilities = capabilities,
 			settings = {
@@ -93,6 +87,32 @@ return {
 				},
 			},
 		})
+
+
+		-- Change the Diagnostic symbols in the sign column (gutter)
+		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+		for type, icon in pairs(signs) do
+			local hl = "DiagnosticSign" .. type
+			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+		end
+
+    local _border = "single"
+
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+      vim.lsp.handlers.hover, {
+        border = _border
+      }
+    )
+
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+      vim.lsp.handlers.signature_help, {
+        border = _border
+      }
+    )
+
+    vim.diagnostic.config{
+      float={border=_border}
+    }
 
 		local util = require("lspconfig/util")
 
