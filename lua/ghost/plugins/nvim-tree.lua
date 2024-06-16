@@ -1,6 +1,6 @@
 return {
 	"nvim-tree/nvim-tree.lua",
-  event = "VeryLazy",
+	event = "VeryLazy",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	priority = 1000,
 	config = function()
@@ -15,7 +15,6 @@ return {
 			view = {
 				side = "right",
 				-- width = 32,
-				relativenumber = true,
 			},
 			-- change folder arrow icons
 			renderer = {
