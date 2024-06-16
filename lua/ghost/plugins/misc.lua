@@ -1,18 +1,49 @@
 return {
 	{
 		"kevinhwang91/nvim-bqf", -- Better quickfix window,
+		event = "VeryLazy",
 		ft = "qf",
 	},
 	{
+		"/ThePrimeagen/vim-be-good",
+		event = "VeryLazy",
+	},
+	{
+		event = "VeryLazy",
 		"moll/vim-bbye",
 		-- 	"famiu/bufdelete.nvim", -- Easily close buffers whilst preserving your window layouts
 	},
 	{
-		"nicwest/vim-http",
+		"kassio/neoterm",
+		event = "VeryLazy",
 	},
 	{
-		"kassio/neoterm",
+		"sindrets/diffview.nvim",
 	},
+	-- {
+	-- 	"code-biscuits/nvim-biscuits",
+	-- 	cond = not vim.g.vscode,
+	-- 	event = "VeryLazy",
+	-- 	config = function()
+	-- 		require("nvim-biscuits").setup({
+	-- 			cursor_line_only = true,
+	-- 			on_events = {
+	-- 				"CursorHold",
+	-- 				"CursorHoldI",
+	-- 				"InsertLeave",
+	-- 			},
+	-- 			language_config = {
+	-- 				vimdoc = {
+	-- 					disabled = true,
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+	{
+		"editorconfig/editorconfig-vim",
+	},
+
 	-- {
 	-- 	"mrcjkb/rustaceanvim",
 	-- 	ft = "rust",

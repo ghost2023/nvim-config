@@ -1,6 +1,7 @@
 return {
 	{
 		"marilari88/twoslash-queries.nvim",
+    event = "VeryLazy",
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
 			require("lspconfig")["tsserver"].setup({
@@ -13,6 +14,7 @@ return {
 	},
 	{
 		"dmmulroy/tsc.nvim",
+    event = "VeryLazy",
 		config = function()
 			require("tsc").setup()
 		end,
