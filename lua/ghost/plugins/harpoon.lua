@@ -7,8 +7,8 @@ return {
 
 		harpoon:setup()
 
-		vim.keymap.set("n", "<leader>a", function()
-			harpoon:list():append()
+		vim.keymap.set("n", "<leader>ha", function()
+			harpoon:list():add()
 		end)
 
 		local conf = require("telescope.config").values
