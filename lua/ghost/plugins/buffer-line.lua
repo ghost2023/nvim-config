@@ -1,6 +1,7 @@
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
+	-- event = "VimEnter",
 	dependencies = "nvim-tree/nvim-web-devicons",
 	config = function()
 		local bufferline = require("bufferline")
@@ -24,7 +25,6 @@ return {
 				-- 		separator = true,
 				-- 	},
 				-- },
-				always_show_bufferline = false,
 				separator_style = "slant",
 				diagnostics = "nvim_lsp",
 				indicator = {
