@@ -1,22 +1,28 @@
 return {
+	-- {
+	-- 	"kevinhwang91/nvim-bqf", -- Better quickfix window,
+	-- 	event = "VeryLazy",
+	-- 	ft = "qf",
+	-- },
+	-- {
+	-- 	"/ThePrimeagen/vim-be-good",
+	-- 	event = "VeryLazy",
+	-- },
 	{
-		"kevinhwang91/nvim-bqf", -- Better quickfix window,
-		event = "VeryLazy",
-		ft = "qf",
-	},
-	{
-		"/ThePrimeagen/vim-be-good",
-		event = "VeryLazy",
+		"karb94/neoscroll.nvim",
+		config = function()
+			require("neoscroll").setup({})
+		end,
 	},
 	{
 		event = "VeryLazy",
 		"moll/vim-bbye",
 		-- 	"famiu/bufdelete.nvim", -- Easily close buffers whilst preserving your window layouts
 	},
-	{
-		"kassio/neoterm",
-		event = "VeryLazy",
-	},
+	-- {
+	-- 	"kassio/neoterm",
+	-- 	event = "VeryLazy",
+	-- },
 	{
 		"sindrets/diffview.nvim",
 	},

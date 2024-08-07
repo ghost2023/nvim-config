@@ -1,6 +1,6 @@
 return {
 	"kevinhwang91/nvim-hlslens",
-  event = "VeryLazy",
+	event = "VeryLazy",
 	config = function()
 		require("hlslens").setup({
 			build_position_cb = function(plist, _, _, _)

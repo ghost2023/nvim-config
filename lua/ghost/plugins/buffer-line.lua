@@ -1,11 +1,10 @@
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
-	-- event = "VimEnter",
+	event = "VimEnter",
 	dependencies = "nvim-tree/nvim-web-devicons",
 	config = function()
 		local bufferline = require("bufferline")
-		vim.keymap.set("n", "<leader>bg", "<cmd>BufferLinePick<CR>") -- smart rename
 		vim.keymap.set("n", "<leader>X", function()
 			for _, e in ipairs(bufferline.get_elements().elements) do
 				vim.schedule(function()
@@ -16,22 +15,9 @@ return {
 
 		bufferline.setup({
 			options = {
-				-- offsets = {
-				-- 	{
-				-- 		filetype = "NvimTree",
-				-- 		text = "Files",
-				-- 		highlight = "Directory",
-				-- 		text_align = "left",
-				-- 		separator = true,
-				-- 	},
-				-- },
-				separator_style = "slant",
-				diagnostics = "nvim_lsp",
-				indicator = {
-					style = "underline",
-				},
-
-				diagnostics_update_in_insert = true,
+				separator_style = "thick",
+        diagnostics = false,
+        diagnostics_update_in_insert = false,
 				show_buffer_icons = false,
 			},
 		})

@@ -13,11 +13,22 @@ return {
 		-- configure nvim-tree
 		nvimtree.setup({
 			view = {
-				side = "right",
-				-- width = 32,
+				float = {
+					enable = true,
+					open_win_config = {
+						relative = "editor",
+						border = "rounded",
+						height = vim.api.nvim_list_uis()[1].height - 4,
+						width = 45,
+						col = vim.api.nvim_list_uis()[1].width - 45,
+					},
+				},
+				-- side = "right",
+				-- width = 45,
 			},
 			-- change folder arrow icons
 			renderer = {
+				root_folder_label = ":~:s?$?",
 				indent_markers = {
 					enable = true,
 				},
@@ -48,14 +59,8 @@ return {
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness
 
-		keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
-		keymap.set(
-			"n",
-			"<leader>ef",
-			"<cmd>NvimTreeFindFileToggle<CR>",
-			{ desc = "Toggle file explorer on current file" }
-		) -- toggle file explorer on current file
-		keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+		keymap.set("n", "<M-e>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
+		keymap.set("n", "<M-S-e>", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
 
 		local function open_nvim_tree(data)
 			-- buffer is a [No Name]

@@ -1,7 +1,7 @@
 return {
 	"nvimtools/none-ls.nvim", -- configure formatters & linters
-	lazy = true,
-	event = { "BufReadPre", "BufNewFile" }, -- to enable uncomment this
+	-- lazy = true,
+	-- event = { "BufReadPre", "BufNewFile" }, -- to enable uncomment this
 	dependencies = {
 		"jay-babu/mason-null-ls.nvim",
 	},
@@ -24,7 +24,6 @@ return {
 
 		-- for conciseness
 		local formatting = null_ls.builtins.formatting -- to setup formatters
-		local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 
 		-- to setup format on save
 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -32,24 +31,20 @@ return {
 		-- configure null_ls
 		null_ls.setup({
 			-- add package.json as identifier for root (for typescript monorepos)
-			root_dir = null_ls_utils.root_pattern(".null-ls-root", "Makefile", ".git", "package.json"),
+			-- root_dir = null_ls_utils.root_pattern(".null-ls-root", "Makefile", ".git", "package.json"),
 			-- setup formatters & linters
 			sources = {
 				--  to disable file types use
 				--  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
-				formatting.prettier.with({
-					extra_filetypes = { "svelte" },
-				}), -- js/ts formatter
+				formatting.prettier,
+				-- formatting.prettier.with({
+				-- 	extra_filetypes = { "svelte" },
+				-- }), -- js/ts formatter
 				formatting.stylua, -- lua formatter
 				formatting.isort,
 				formatting.black,
-				-- diagnostics.pylint,
-				-- diagnostics.eslint.with({ -- js/ts linter
-				-- 	condition = function(utils)
-				-- 		return utils.root_has_file({ ".eslintrc.js", ".eslintrc.cjs" }) -- only enable if root has .eslintrc.js or .eslintrc.cjs
-				-- 	end,
-				-- }),
 			},
+
 			-- configure format on save
 			on_attach = function(current_client, bufnr)
 				if current_client.supports_method("textDocument/formatting") then
@@ -62,6 +57,7 @@ return {
 								command = "_typescript.organizeImports",
 								arguments = { vim.fn.expand("%:p") },
 							})
+
 							vim.lsp.buf.format({
 								filter = function(client)
 									--  only use null-ls for formatting instead of lsp server
@@ -69,11 +65,25 @@ return {
 								end,
 								bufnr = bufnr,
 							})
+							-- vim.lsp.buf.format()
 						end,
 					})
 				end
 			end,
 		})
+
+		local keymap = vim.keymap -- for conciseness
+		local opts = { noremap = true, silent = true }
+		opts.desc = "format"
+		keymap.set("n", "<leader>gf", function()
+			-- vim.api.nvim_command(":TSToolsOrganizeImports<CR>")
+			vim.lsp.buf.format({
+				filter = function(client)
+					--  only use null-ls for formatting instead of lsp server
+					return client.name == "null-ls"
+				end,
+			})
+		end, opts)
 	end,
 }
 

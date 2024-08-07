@@ -1,5 +1,13 @@
-return {
-	"NvChad/nvim-colorizer.lua",
-	event = { "BufReadPre", "BufNewFile" },
-	config = true,
-}
+return {}
+-- return {
+-- 	"NvChad/nvim-colorizer.lua",
+-- 	event = { "BufReadPre", "BufNewFile" },
+-- 	config = function()
+-- 		require("colorizer").setup({
+-- 			filetypes = { "*" },
+-- 			user_default_options = {
+-- 				RRGGBBAA = true,
+-- 			},
+-- 		})
+-- 	end,
+-- }

@@ -13,17 +13,20 @@ return {
 
 		telescope.setup({
 			defaults = {
+        layout_strategy = 'vertical',
 				layout_config = {
-					height = 0.95,
-					width = 0.95,
-					preview_cutoff = 90,
+					height = 0.99,
+					-- width = 0.95,
+					preview_cutoff = 0.10,
+          preview_height=0.40,
 					horizontal = {
-						preview_width = 0.55,
+						preview_width = 0.45,
 						results_width = 0.8,
 					},
 					vertical = {
-						mirror = false,
+						mirror = true,
 					},
+          prompt_position= 'top'
 				},
 				path_display = { "trunicate" },
 				mappings = {
@@ -31,12 +34,30 @@ return {
 						["<C-k>"] = actions.move_selection_previous, -- move to prev result
 						["<C-j>"] = actions.move_selection_next, -- move to next result
 						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-						["jk"] = actions.close,
+						["<M-f>"] = actions.close,
 					},
+          n ={
+						["<M-f>"] = actions.close,
+          }
 				},
 				file_ignore_patterns = {
 					"node_modules",
 					".git",
+					".expo",
+					".next",
+					"dist",
+					"%.png",
+					"%.webp",
+					"%jpg",
+					"%.ttf",
+					"%.otf",
+					"%.otf",
+					"%.svg",
+					"%.zip",
+					"yarn.lock",
+					"pnpm-lock.yaml",
+					"package-lock.json",
+					"tsconfig.tsbuildinfo",
 				},
 			},
 			pickers = {
@@ -58,17 +79,5 @@ return {
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness
 
-		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
-		keymap.set("n", "<leader>fj", "<cmd>Telescope jumplist<cr>", { desc = "Jumplist" })
-		keymap.set("n", "<leader>fg", "<cmd>Telescope registers<cr>", { desc = "registers" })
-		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles only_cwd=true<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set(
-			"n",
-			"<leader>fs",
-			"<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
-			{ desc = "Find string in cwd" }
-		)
-		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
-		keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", { desc = " string under cursor in cwd" })
 	end,
 }

@@ -11,6 +11,14 @@ return {
 			-- import nvim-treesitter plugin
 			local treesitter = require("nvim-treesitter.configs")
 
+			local autotag = require("nvim-ts-autotag")
+
+			autotag.setup({
+				opts = {
+					enable_close_on_slash = true,
+				},
+			})
+
 			-- configure treesitter
 			treesitter.setup({ -- enable syntax highlighting
 				highlight = {
@@ -19,31 +27,11 @@ return {
 				-- enable indentation
 				indent = { enable = true },
 				-- enable autotagging (w/ nvim-ts-autotag plugin)
-				autotag = {
-					enable = true,
-					enable_close_on_slash = false,
-				},
+				-- autotag = {
+				--   enable = true,
+				-- },
 				-- ensure these language parsers are installed
-				ensure_installed = {
-					"json",
-					"javascript",
-					"typescript",
-					"tsx",
-					"yaml",
-					"html",
-					"css",
-					"prisma",
-					"markdown",
-					"markdown_inline",
-					"svelte",
-					"graphql",
-					"bash",
-					"lua",
-					"vim",
-					"dockerfile",
-					"gitignore",
-					"query",
-				},
+				auto_install = true,
 				incremental_selection = {
 					enable = true,
 					keymaps = {

@@ -1,4 +1,5 @@
-return {
-	"tpope/vim-fugitive",
-	event = "VeryLazy",
-}
+return {}
+-- return {
+-- 	"tpope/vim-fugitive",
+-- 	event = "VeryLazy",
+-- }
