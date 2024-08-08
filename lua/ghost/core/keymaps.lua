@@ -27,8 +27,8 @@ keymap.set("n", "<leader><Tab>", ":tabn<CR>") --  go to next tab
 keymap.set("n", "<leader><S-Tab>", ":tabp<CR>") --  go to previous tab
 
 -- buffer keybinding
-keymap.set("n", "<S-Tab>", ":bprevious<CR>") -- go to previous buffer
-keymap.set("n", "<Tab>", ":bnext<CR>") -- go to next buffer
+keymap.set("n", "<C-x>", ":bprevious<CR>") -- go to previous buffer
+keymap.set("n", "<C-c>", ":bnext<CR>") -- go to next buffer
 keymap.set("n", "<leader>b", ":b#<CR>") -- go to previous buffer
 keymap.set("n", "<leader>x", ":Bwipeout<CR>") -- close buffer
 
