@@ -36,10 +36,9 @@ return {
 			sources = {
 				--  to disable file types use
 				--  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
-				formatting.prettier,
-				-- formatting.prettier.with({
-				-- 	extra_filetypes = { "svelte" },
-				-- }), -- js/ts formatter
+				formatting.prettier.with({
+					extra_filetypes = { "svelte" },
+				}), -- js/ts formatter
 				formatting.stylua, -- lua formatter
 				formatting.isort,
 				formatting.black,
@@ -58,32 +57,12 @@ return {
 								arguments = { vim.fn.expand("%:p") },
 							})
 
-							vim.lsp.buf.format({
-								filter = function(client)
-									--  only use null-ls for formatting instead of lsp server
-									return client.name == "null-ls"
-								end,
-								bufnr = bufnr,
-							})
-							-- vim.lsp.buf.format()
+							vim.lsp.buf.format({ async = false })
 						end,
 					})
 				end
 			end,
 		})
-
-		local keymap = vim.keymap -- for conciseness
-		local opts = { noremap = true, silent = true }
-		opts.desc = "format"
-		keymap.set("n", "<leader>gf", function()
-			-- vim.api.nvim_command(":TSToolsOrganizeImports<CR>")
-			vim.lsp.buf.format({
-				filter = function(client)
-					--  only use null-ls for formatting instead of lsp server
-					return client.name == "null-ls"
-				end,
-			})
-		end, opts)
 	end,
 }
 
