@@ -12,7 +12,6 @@ local opts = { noremap = true, silent = true }
 keymap.set("i", "jk", "<ESC>")
 keymap.set("t", "jk", "<C-\\><C-n>")
 
-keymap.set("i", "kj", "<ESC><cmd>silent w | echo 'saved'<CR>")
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- clear search highlights
@@ -21,15 +20,15 @@ keymap.set("n", "<leader>nh", ":nohl<CR>")
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
 
-keymap.set("n", "<leader>tn", ":tabnew<CR>") -- open new tab
-keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-keymap.set("n", "<leader><Tab>", ":tabn<CR>") --  go to next tab
+keymap.set("n", "<leader>tn", ":tabnew<CR>")    -- open new tab
+keymap.set("n", "<leader>tx", ":tabclose<CR>")  -- close current tab
+keymap.set("n", "<leader><Tab>", ":tabn<CR>")   --  go to next tab
 keymap.set("n", "<leader><S-Tab>", ":tabp<CR>") --  go to previous tab
 
 -- buffer keybinding
-keymap.set("n", "<C-x>", ":bprevious<CR>") -- go to previous buffer
-keymap.set("n", "<C-c>", ":bnext<CR>") -- go to next buffer
-keymap.set("n", "<leader>b", ":b#<CR>") -- go to previous buffer
+keymap.set("n", "<C-x>", ":bprevious<CR>")    -- go to previous buffer
+keymap.set("n", "<C-c>", ":bnext<CR>")        -- go to next buffer
+keymap.set("n", "<leader>b", ":b#<CR>")       -- go to previous buffer
 keymap.set("n", "<leader>x", ":Bwipeout<CR>") -- close buffer
 
 -- windows keybinding
@@ -68,10 +67,10 @@ keymap.set("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>")
 keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>")
 
 -- telescope
-keymap.set("n", "<M-f>", "<cmd>Telescope fd<cr>") -- find files within current working directory, respects .gitignore
+keymap.set("n", "<leader>ff", "<cmd>Telescope fd<cr>")          -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fe", "<cmd>Telescope resume<cr>") -- resume telescope
+keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")     -- list open buffers in current neovim instance
+keymap.set("n", "<leader>fe", "<cmd>Telescope resume<cr>")      -- resume telescope
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Find string in cwd" })
 
 -- restart lsp server (not on youtube nvim video)
@@ -120,26 +119,26 @@ opts.desc = "Go to next diagnostic"
 keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
 opts.desc = "Toggle DBUI"
-keymap.set("n", "<leader>p", "<cmd>DBUIToggle<CR>", opts) -- show documentation for what is under cursor
+keymap.set("n", "<leader>p", "<cmd>Dbee<CR>", opts) -- show documentation for what is under cursor
 
 opts.desc = "Restart LSP"
-keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)   -- mapping to restart lsp if necessary
 
 keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
 
 opts.desc = "Organize Imports"
 keymap.set("n", "<leader>oi", function()
-	vim.lsp.buf.execute_command({
-		command = "_typescript.organizeImports",
-		arguments = { vim.fn.expand("%:p") },
-	})
+  vim.lsp.buf.execute_command({
+    command = "_typescript.organizeImports",
+    arguments = { vim.fn.expand("%:p") },
+  })
 end, opts)
 
 keymap.set("n", "zk", function()
-	local winid = require("ufo").peekFoldedLinesUnderCursor()
-	if not winid then
-		-- choose one of coc.nvim and nvim lsp
-		vim.fn.CocActionAsync("definitionHover") -- coc.nvim
-		vim.lsp.buf.hover()
-	end
+  local winid = require("ufo").peekFoldedLinesUnderCursor()
+  if not winid then
+    -- choose one of coc.nvim and nvim lsp
+    vim.fn.CocActionAsync("definitionHover") -- coc.nvim
+    vim.lsp.buf.hover()
+  end
 end)
