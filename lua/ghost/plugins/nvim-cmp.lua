@@ -1,91 +1,103 @@
 return {
-	"hrsh7th/nvim-cmp",
-	event = "InsertEnter",
-	dependencies = {
-		"hrsh7th/cmp-buffer", -- source for text in buffer
-		"hrsh7th/cmp-path", -- source for file system paths
-		"L3MON4D3/LuaSnip", -- snippet engine
-		"saadparwaiz1/cmp_luasnip", -- for autocompletion
-		"rafamadriz/friendly-snippets", -- useful snippets
-		"onsails/lspkind.nvim", -- vs-code like pictograms
-	},
-	config = function()
-		local cmp = require("cmp")
-		local types = require("cmp.types")
+  "hrsh7th/nvim-cmp",
+  event = "InsertEnter",
+  dependencies = {
+    "hrsh7th/cmp-buffer", -- source for text in buffer
+    "hrsh7th/cmp-path", -- source for file system paths
+    {
+      "L3MON4D3/LuaSnip", -- snippet engine
+      event = "InsertEnter",
+    },
+    "saadparwaiz1/cmp_luasnip",   -- for autocompletion
+    "rafamadriz/friendly-snippets", -- useful snippets
+    "onsails/lspkind.nvim",       -- vs-code like pictograms
+  },
+  config = function()
+    local cmp = require("cmp")
 
-		local luasnip = require("luasnip")
-		local lspkind = require("lspkind")
+    local luasnip = require("luasnip")
+    local lspkind = require("lspkind")
 
-		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-		require("luasnip.loaders.from_vscode").lazy_load({ path = "~/.config/nvim/snippets" })
+    cmp.setup({
+      sorting = {
+        priority_weight = 0,
+        -- comparators = {
+        --   cmp.config.compare.exact,
+        --   cmp.config.compare.offset,
+        --   cmp.config.compare.score,
+        --   cmp.config.compare.kind,
+        --   cmp.config.compare.length,
+        --   cmp.config.compare.order,
+        -- },
+      },
 
-		cmp.setup({
-			sorting = {
-				priority_weight = 0,
-        comparators = {
-          cmp.config.compare.exact,
-          cmp.config.compare.offset,
-          cmp.config.compare.score,
-          cmp.config.compare.kind,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        }
-			},
+      completion = {
+        completeopt = "menu,menuone,noinsert",
+      },
 
-			completion = {
-				completeopt = "menu,menuone,noinsert",
-			},
-
-			snippet = { -- configure how nvim-cmp interacts with snippet engine
-				expand = function(args)
-					luasnip.lsp_expand(args.body)
-				end,
-			},
-			window = {
-				completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
-			},
-			mapping = cmp.mapping.preset.insert({
-				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-				["<C-u>"] = cmp.mapping.scroll_docs(-4),
-				["<C-d>"] = cmp.mapping.scroll_docs(4),
-				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<C-e>"] = cmp.mapping.abort(), -- close completion window
-				["<CR>"] = cmp.mapping.confirm({ select = false }),
-				["<Tab>"] = cmp.mapping(function(fallback)
-					if luasnip.locally_jumpable(1) then
-						luasnip.jump(1)
-					else
-						fallback()
-					end
-				end, { "i", "s" }),
-			}),
-			-- sources for autocompletion
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp", priority = 51 },
-				{ name = "luasnip", priority=50 }, -- snippets
-				{ name = "vim-dadbod-completion" }, -- sql
-				{ name = "buffer" }, -- text within current buffer
-				{ name = "path" }, -- file system paths
-			}),
-			-- configure lspkind for vs-code like pictograms in completion menu
-			formatting = {
-				format = lspkind.cmp_format({
-					maxwidth = 30,
-					ellipsis_char = "...",
-					before = function(_, vim_item)
-						vim_item.menu = ""
-						-- local limit = 20
-						-- local str_len = string.len(vim_item.menu)
-						-- if str_len > limit then
-						-- 	vim_item.menu = string.sub(vim_item.menu, 1, limit - 3) .. "…"
-						-- end
-						return vim_item
-					end,
-				}),
-			},
-		})
+      snippet = { -- configure how nvim-cmp interacts with snippet engine
+        expand = function(args)
+          luasnip.lsp_expand(args.body)
+        end,
+      },
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+      },
+      mapping = cmp.mapping.preset.insert({
+        ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
+        ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
+        ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+        ["<C-e>"] = cmp.mapping.abort(),    -- close completion window
+        ["<CR>"] = cmp.mapping.confirm({ select = false }),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if luasnip.locally_jumpable(1) then
+            luasnip.jump(1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
+      }),
+      -- sources for autocompletion
+      sources = cmp.config.sources({
+        {
+          name = "nvim_lsp",
+          priority = 51,
+          -- entry_filter = function(entry, ctx)
+          --   vim.api.nvim_buf_set_lines(
+          --     0,
+          --     -1,
+          --     -1,
+          --     false,
+          --     { entry.source.name, entry.source.completion_context.triggerKind }
+          --   )
+          --   return true
+          -- end,
+        },
+        { name = "luasnip", priority = 50 }, -- snippets
+        -- { name = "vim-dadbod-completion" }, -- sql
+        { name = "buffer" },             -- text within current buffer
+        { name = "path" },               -- file system paths
+      }),
+      -- configure lspkind for vs-code like pictograms in completion menu
+      formatting = {
+        format = lspkind.cmp_format({
+          maxwidth = 30,
+          ellipsis_char = "...",
+          before = function(_, vim_item)
+            vim_item.menu = ""
+            -- local limit = 20
+            -- local str_len = string.len(vim_item.menu)
+            -- if str_len > limit then
+            -- 	vim_item.menu = string.sub(vim_item.menu, 1, limit - 3) .. "…"
+            -- end
+            return vim_item
+          end,
+        }),
+      },
+    })
 
     local ls = require("luasnip")
     local s = ls.snippet
@@ -125,11 +137,11 @@ return {
 
     local js_snippets = {
       s("cl", {
-       t"console.log(",
-        i(1,"\"here\", "),
+        t("console.log("),
+        i(1, '"here", '),
         i(2),
-        t");",
-      })
+        t(");"),
+      }),
     }
 
     ls.add_snippets("javascript", js_snippets)
@@ -141,12 +153,54 @@ return {
     ls.add_snippets("typescriptreact", js_snippets)
 
     ls.add_snippets("typescriptreact", {
-      s({trig ='tp',  priority = 4000}, {
-        t({  "type Props = {", "\t" } ),
+      s({ trig = "tp", priority = 4000 }, {
+        t({ "type Props = {", "\t" }),
         i(1, "children: React.ReactNode;"),
         i(2, ""),
-        t({"", "};"})
-      })
+        t({ "", "};" }),
+      }),
     })
-	end,
+
+    -- Define your custom function
+    local function on_text_change(param)
+      -- For example, print the current line content
+      local node = vim.treesitter.get_node()
+      local first_cmp = cmp.get_entries()[1]
+      vim.api.nvim_buf_set_lines(0, -1, -1, true, { "in jsx" })
+      if node then
+        if first_cmp then
+          vim.api.nvim_buf_set_lines(0, -1, -1, false, { "", first_cmp.source, "in jsx" })
+        end
+        if
+            node.type == "jsx_element"
+            or node.type == "jsx_opening_element"
+            or node.type == "jsx_self_closing_element"
+        then
+          local client = vim.lsp.get_clients({ name = "emmet_language_server" })[1]
+
+          -- vim.lsp.buf_attach_client(0, client.id)
+        else
+          local client = vim.lsp.get_clients({ name = "emmet_language_server" })[1]
+
+          -- vim.api.nvim_buf_set_lines(
+          --   0,
+          --   -1,
+          --   -1,
+          --   false,
+          --   { "", vim.inspect(client.name), tostring(client.initialized), "in jsx" }
+          -- )
+          -- vim.lsp.buf_detach_client(0, client.id)
+        end
+      end
+    end
+
+    -- -- Create an autocommand group (optional, to avoid overwriting commands)
+    -- vim.api.nvim_create_augroup("MyTextChangeGroup", { clear = true })
+    --
+    -- vim.api.nvim_create_autocmd({ "CompleteChanged" }, {
+    --   group = "MyTextChangeGroup",
+    --   pattern = { "*.tsx", "*.jsx" },
+    --   callback = on_text_change,
+    -- })
+  end,
 }
