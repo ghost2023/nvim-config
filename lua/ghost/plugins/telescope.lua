@@ -1,5 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
+  cmd = "Telescope",
   branch = "0.1.x",
   dependencies = {
     "nvim-telescope/telescope-live-grep-args.nvim",
@@ -72,8 +73,5 @@ return {
 
     telescope.load_extension("live_grep_args")
     telescope.load_extension("fzf")
-
-    -- set keymaps
-    local keymap = vim.keymap -- for conciseness
   end,
 }
