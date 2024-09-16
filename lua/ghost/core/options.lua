@@ -11,6 +11,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+vim.opt.fillchars = { eob = " " }
+
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
 opt.backupcopy = "yes"
