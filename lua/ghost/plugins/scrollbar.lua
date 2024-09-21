@@ -1,6 +1,6 @@
 return {
   "petertriho/nvim-scrollbar",
-  event = "VimEnter",
+  event = "UIEnter",
   config = function()
     local colors = require("tokyonight.colors").setup()
     require("scrollbar").setup({

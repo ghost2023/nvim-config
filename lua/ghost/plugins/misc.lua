@@ -1,9 +1,5 @@
 return {
   {
-    "tzachar/highlight-undo.nvim",
-    event = "VeryLazy",
-  },
-  {
     "karb94/neoscroll.nvim",
     event = "VeryLazy",
     config = function()
@@ -12,11 +8,11 @@ return {
   },
   {
     "moll/vim-bbye",
-    event = "VeryLazy",
+    cmd = { "Bwipeout", "Bdelete" },
   },
   {
     "sindrets/diffview.nvim",
-    event = "VeryLazy",
+    cmd = "DiffviewOpen",
   },
   {
     "editorconfig/editorconfig-vim",
@@ -25,7 +21,8 @@ return {
 
   {
     "kndndrj/nvim-dbee",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
+    cmd = "Dbee",
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
@@ -34,6 +31,20 @@ return {
       -- if it fails, try calling it with one of these parameters:
       --    "curl", "wget", "bitsadmin", "go"
       require("dbee").install()
+    end,
+    config = function()
+      require("dbee").setup({
+        drawer = {
+          window_options = {
+            winheight = 18,
+          },
+        },
+        editor = {
+          window_options = {
+            winheight = 18,
+          },
+        },
+      })
     end,
   },
   { "echasnovski/mini.icons", version = false, event = "UIEnter" },
