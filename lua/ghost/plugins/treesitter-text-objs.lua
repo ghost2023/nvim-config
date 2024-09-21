@@ -44,6 +44,11 @@ return {
 
             ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
             ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
+
+            ["an"] = {
+              query = "@self_closing_element",
+              desc = "Select outer part of a JSX self-closing element",
+            },
           },
         },
         swap = {
