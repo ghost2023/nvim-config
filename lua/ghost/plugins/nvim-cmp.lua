@@ -160,47 +160,5 @@ return {
         t({ "", "};" }),
       }),
     })
-
-    -- Define your custom function
-    local function on_text_change(param)
-      -- For example, print the current line content
-      local node = vim.treesitter.get_node()
-      local first_cmp = cmp.get_entries()[1]
-      vim.api.nvim_buf_set_lines(0, -1, -1, true, { "in jsx" })
-      if node then
-        if first_cmp then
-          vim.api.nvim_buf_set_lines(0, -1, -1, false, { "", first_cmp.source, "in jsx" })
-        end
-        if
-            node.type == "jsx_element"
-            or node.type == "jsx_opening_element"
-            or node.type == "jsx_self_closing_element"
-        then
-          local client = vim.lsp.get_clients({ name = "emmet_language_server" })[1]
-
-          -- vim.lsp.buf_attach_client(0, client.id)
-        else
-          local client = vim.lsp.get_clients({ name = "emmet_language_server" })[1]
-
-          -- vim.api.nvim_buf_set_lines(
-          --   0,
-          --   -1,
-          --   -1,
-          --   false,
-          --   { "", vim.inspect(client.name), tostring(client.initialized), "in jsx" }
-          -- )
-          -- vim.lsp.buf_detach_client(0, client.id)
-        end
-      end
-    end
-
-    -- -- Create an autocommand group (optional, to avoid overwriting commands)
-    -- vim.api.nvim_create_augroup("MyTextChangeGroup", { clear = true })
-    --
-    -- vim.api.nvim_create_autocmd({ "CompleteChanged" }, {
-    --   group = "MyTextChangeGroup",
-    --   pattern = { "*.tsx", "*.jsx" },
-    --   callback = on_text_change,
-    -- })
   end,
 }
