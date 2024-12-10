@@ -44,6 +44,8 @@ return {
       dashboard.button("q", "󰅚  > Quit Nvim", ":qa<CR>"),
     }
 
+    dashboard.opts.noautocmd = true
+
     dashboard.section.buttons.opts.spacing = 0
     -- dashboard.section.buttons.opts.shrink_margin = true
 

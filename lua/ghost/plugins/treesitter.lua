@@ -1,12 +1,12 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      { "windwp/nvim-ts-autotag", event = "VeryLazy" },
+      "windwp/nvim-ts-autotag",
     },
     config = function()
       -- import nvim-treesitter plugin
@@ -47,6 +47,25 @@ return {
         -- 	enable = true,
         -- 	enable_autocmd = false,
         -- },
+      })
+
+      local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+      parser_config.blade = {
+        install_info = {
+          url = "https://github.com/EmranMR/tree-sitter-blade",
+          files = { "src/parser.c" },
+          branch = "main",
+        },
+        filetype = "blade"
+      }
+      -- Create an augroup for Blade filetype
+      vim.api.nvim_create_augroup("BladeFiletypeRelated", { clear = true })
+
+      -- Set the filetype for *.blade.php files to "blade"
+      vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+        group = "BladeFiletypeRelated",
+        pattern = "*.blade.php",
+        command = "set ft=blade",
       })
     end,
   },

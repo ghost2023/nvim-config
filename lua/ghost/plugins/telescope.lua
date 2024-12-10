@@ -1,7 +1,7 @@
 return {
   "nvim-telescope/telescope.nvim",
-  cmd = "Telescope",
   branch = "0.1.x",
+  lazy = false,
   dependencies = {
     "nvim-telescope/telescope-live-grep-args.nvim",
     "nvim-lua/plenary.nvim",
@@ -19,7 +19,6 @@ return {
           height = 0.99,
           -- width = 0.95,
           preview_cutoff = 0.10,
-          preview_height = 0.40,
           horizontal = {
             preview_width = 0.45,
             results_width = 0.8,
@@ -59,13 +58,19 @@ return {
         },
       },
       pickers = {
+        colorscheme = {
+          enable_preview = true,
+        },
         find_files = {
           find_command = { "rg", "--files", "--hidden" },
           hidden = true,
         },
-        mappings = {
-          i = {
-            ["<c-x>"] = actions.delete_buffer + actions.move_to_top,
+        buffers = {
+          sort_lastused = true,
+          mappings = {
+            i = {
+              ["<c-x>"] = actions.delete_buffer + actions.move_to_top,
+            },
           },
         },
       },

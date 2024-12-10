@@ -1,20 +1,51 @@
 return {
-	{
-		"w0ng/vim-hybrid",
-	},
-	{
-		"marko-cerovac/material.nvim",
-		config = function()
-			vim.cmd("colorscheme material-deep-ocean")
-		end,
-		priority = 1000, -- make sure to load this before all the other start plugins
-	},
-	{ "Mofiqul/vscode.nvim" },
-	{ "catppuccin/nvim", as = "catppuccin" },
-	{ "nanotech/jellybeans.vim" },
-	{ "folke/tokyonight.nvim" },
-	{ "EdenEast/nightfox.nvim" },
-	{ "rose-pine/neovim" },
-	{ "tiagovla/tokyodark.nvim", },
-	{ "projekt0n/github-nvim-theme" },
+  {
+    "w0ng/vim-hybrid",
+    config = function()
+      vim.cmd("colorscheme hybrid")
+    end,
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    "marko-cerovac/material.nvim",
+    event = "VeryLazy",
+  },
+  {
+    event = "VeryLazy",
+    "Mofiqul/vscode.nvim",
+  },
+  {
+    event = "VeryLazy",
+    "catppuccin/nvim",
+    as = "catppuccin",
+  },
+  {
+    event = "VeryLazy",
+    "nanotech/jellybeans.vim",
+  },
+  {
+    event = "VeryLazy",
+    "folke/tokyonight.nvim",
+  },
+  {
+    event = "VeryLazy",
+    "rose-pine/neovim",
+  },
+  {
+    event = "VeryLazy",
+    "tiagovla/tokyodark.nvim",
+  },
+  {
+    event = "VeryLazy",
+    "projekt0n/github-nvim-theme",
+  },
+  {
+    event = "VeryLazy",
+    "rebelot/kanagawa.nvim",
+  },
+  {
+    event = "VeryLazy",
+    "olimorris/onedarkpro.nvim",
+  },
 }

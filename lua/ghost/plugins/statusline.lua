@@ -18,27 +18,27 @@ return {
     local my_lualine_theme = {
       normal = {
         a = { bg = colors.blue, fg = "black", gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        b = { fg = colors.fg },
+        c = { fg = colors.fg },
       },
       insert = {
         a = { bg = colors.yellow, fg = "black", gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        b = { fg = colors.fg },
+        c = { fg = colors.fg },
       },
       visual = {
         a = { bg = colors.violet, fg = "black", gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        b = { fg = colors.fg },
+        c = { fg = colors.fg },
       },
       command = {
         a = { bg = colors.yellow, fg = "black", gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
-        c = { bg = colors.bg, fg = colors.fg },
+        b = { fg = colors.fg },
+        c = { fg = colors.fg },
       },
       replace = {
         a = { bg = colors.red, fg = "black", gui = "bold" },
-        b = { bg = colors.bg, fg = colors.fg },
+        b = { fg = colors.fg },
         c = { bg = colors.bg, fg = colors.fg },
       },
       inactive = {

@@ -14,16 +14,15 @@ return {
 
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
-    vim.lsp.inlay_hint.enable()
 
     -- import mason-lspconfig
     local mason_lspconfig = require("mason-lspconfig")
     local ensure_installed = {
+      "phpactor",
       "ts_ls",
       "html",
       "cssls",
       "tailwindcss",
-      -- "eslint",
       "clangd",
       "lua_ls",
       "gopls",
@@ -39,61 +38,147 @@ return {
       automatic_installation = true, -- not the same as ensure_installed
     })
 
-    for _, value in pairs(ensure_installed) do
-      if value ~= "emmet_language_server" then
-        lspconfig[value].setup({
-          capabilities = capabilities,
-        })
-      end
-    end
-
-    -- configure svelte server
-    lspconfig["svelte"].setup({
-      capabilities = capabilities,
-      on_attach = function(client, bufnr)
-        vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
-          pattern = { "*.js", "*.ts" },
-          callback = function(ctx)
-            if client.name == "svelte" then
-              client.notify("$/onDidChangeTsOrJsFile", {
-                uri = ctx.file,
-                changes = {
-                  {
-                    text = table.concat(vim.api.nvim_buf_get_lines(ctx.buf, 0, -1, false), "\n"),
-                  },
-                },
-              })
-            end
-          end,
-          group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
+    require("mason-lspconfig").setup_handlers({
+      -- The first entry (without a key) will be the default handler
+      -- and will be called for each installed server that doesn't have
+      -- a dedicated handler.
+      function(server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup({
+          capabilities,
         })
       end,
-    })
-
-    -- configure rust_analyzer server
-    lspconfig["rust_analyzer"].setup({
-      capabilities = capabilities,
-      settings = {
-        ["rust-analyzer"] = {
-          assist = {
-            importEnforceGranularity = true,
-            importPrefix = "crate",
-          },
-          cargo = {
-            allFeatures = true,
-          },
-          checkOnSave = {
-            command = "clippy",
-          },
-          inlayHints = { locationLinks = false },
-          diagnostics = {
-            enable = true,
-            experimental = {
-              enable = true,
+      -- Next, you can provide a dedicated handler for specific servers.
+      -- For example, a handler override for the `rust_analyzer`:
+      ["rust_analyzer"] = function()
+        -- configure rust_analyzer server
+        lspconfig["rust_analyzer"].setup({
+          capabilities = capabilities,
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                allFeatures = true,
+              },
+              inlayHints = { locationLinks = false },
+              diagnostics = {
+                enable = true,
+              },
             },
           },
-        },
-      },
+        })
+      end,
+      -- ["denols"] = function()
+      --   lspconfig["denols"].setup({
+      --     root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+      --     init_options = {
+      --       lint = true,
+      --       unstable = true,
+      --       suggest = {
+      --         imports = {
+      --           hosts = {
+      --             ["https://deno.land"] = true,
+      --             ["https://cdn.nest.land"] = true,
+      --             ["https://crux.land"] = true,
+      --           },
+      --         },
+      --       },
+      --     },
+      --     on_attach = function()
+      --       local active_clients = vim.lsp.get_clients()
+      --       for _, client in pairs(active_clients) do
+      --         -- stop tsserver if denols is already active
+      --         if client.name == "tsserver" then
+      --           client.stop()
+      --         end
+      --       end
+      --     end,
+      --   })
+      -- end,
+      ["eslint"] = function()
+        lspconfig.eslint.setup({
+          -- Copied from nvim-lspconfig/lua/lspconfig/server_conigurations/eslint.js
+          root_dir = lspconfig.util.root_pattern(
+            ".eslintrc",
+            ".eslintrc.js",
+            ".eslintrc.cjs",
+            ".eslintrc.yaml",
+            ".eslintrc.yml",
+            ".eslintrc.json",
+            "eslint.config.js"
+          -- Disabled to prevent "No ESLint configuration found" exceptions
+          -- 'package.json',
+          ),
+        })
+      end,
+      ["svelte"] = function()
+        -- configure svelte server
+        lspconfig["svelte"].setup({
+          capabilities = capabilities,
+          on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
+              pattern = { "*.js", "*.ts" },
+              callback = function(ctx)
+                if client.name == "svelte" then
+                  client.notify("$/onDidChangeTsOrJsFile", {
+                    uri = ctx.file,
+                    changes = {
+                      {
+                        text = table.concat(
+                          vim.api.nvim_buf_get_lines(ctx.buf, 0, -1, false),
+                          "\n"
+                        ),
+                      },
+                    },
+                  })
+                end
+              end,
+              group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
+            })
+          end,
+        })
+      end,
+      ["csharp_ls"] = function()
+        -- configure rust_analyzer server
+        lspconfig["csharp_ls"].setup({
+          root_dir = function(startpath)
+            return lspconfig.util.root_pattern("*.sln")(startpath)
+                or lspconfig.util.root_pattern("*.csproj")(startpath)
+                or lspconfig.util.root_pattern("*.fsproj")(startpath)
+                or lspconfig.util.root_pattern(".git")(startpath)
+          end,
+          capabilities = capabilities,
+        })
+      end,
+
+      ["emmet_language_server"] = function()
+        -- configure emmet language server
+        lspconfig["emmet_language_server"].setup({
+          capabilities = capabilities,
+          filetypes = { "html", "css", "sass", "scss", "less", "svelte" },
+          showSuggestionsAsSnippets = true,
+        })
+      end,
+
+      -- configure lua server (with special settings)
+      ["lua_ls"] = function()
+        lspconfig["lua_ls"].setup({
+          capabilities = capabilities,
+          settings = { -- custom settings for lua
+            Lua = {
+              -- make the language server recognize "vim" global
+              diagnostics = {
+                globals = { "vim" },
+              },
+              workspace = {
+                -- make language server aware of runtime files
+                library = {
+                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                  [vim.fn.stdpath("config") .. "/lua"] = true,
+                },
+              },
+            },
+          },
+        })
+      end,
     })
 
     -- Change the Diagnostic symbols in the sign column (gutter)
@@ -115,35 +200,6 @@ return {
 
     vim.diagnostic.config({
       float = { border = _border },
-    })
-
-    local util = require("lspconfig/util")
-
-    -- configure emmet language server
-    lspconfig["emmet_language_server"].setup({
-      capabilities = capabilities,
-      filetypes = { "html", "css", "sass", "scss", "less", "svelte" },
-      showSuggestionsAsSnippets = true,
-    })
-
-    -- configure lua server (with special settings)
-    lspconfig["lua_ls"].setup({
-      capabilities = capabilities,
-      settings = { -- custom settings for lua
-        Lua = {
-          -- make the language server recognize "vim" global
-          diagnostics = {
-            globals = { "vim" },
-          },
-          workspace = {
-            -- make language server aware of runtime files
-            library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.stdpath("config") .. "/lua"] = true,
-            },
-          },
-        },
-      },
     })
   end,
 }

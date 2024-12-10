@@ -1,3 +1,1 @@
-return { "mg979/vim-visual-multi",
-    event = "VeryLazy",
-}
+return { "mg979/vim-visual-multi", event = { "BufReadPre", "BufNewFile" } }
