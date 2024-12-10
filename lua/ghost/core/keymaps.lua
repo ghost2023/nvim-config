@@ -20,6 +20,9 @@ keymap.set("n", "<leader>nh", ":nohl<CR>")
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
 
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
 keymap.set("n", "<leader>tn", ":tabnew<CR>")    -- open new tab
 keymap.set("n", "<leader>tx", ":tabclose<CR>")  -- close current tab
 keymap.set("n", "<leader><Tab>", ":tabn<CR>")   --  go to next tab
@@ -62,29 +65,39 @@ keymap.set("n", "<leader>ws", "<C-w>s")
 -- undotree
 keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>")
 
--- git
-keymap.set("n", "<leader>gd", "<cmd>Gvdiffsplit<cr>")
-keymap.set("n", "<leader>gb", "<cmd>GitBlameToggle<cr>")
-
 -- telescope
+keymap.set("n", "<leader>F", "<cmd>Telescope<cr>")              -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>ff", "<cmd>Telescope fd<cr>")          -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")     -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fe", "<cmd>Telescope resume<cr>")      -- resume telescope
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Find string in cwd" })
+keymap.set("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "Search Marks" })
+keymap.set("n", "<leader>fq", "<cmd>Telescope quickfix<CR>", { desc = "Open quickfix" })
+keymap.set("n", "<leader>fp", "<cmd>Telescope commands<CR>", { desc = "Open command palette" })
+keymap.set("n", "<leader>fh", "<cmd>Telescope command_history<CR>", { desc = "Open history of commands" })
+keymap.set("n", "<leader>fy", "<cmd>Telescope search_history<CR>", { desc = "Open history of commands" })
+keymap.set("n", "<leader>fg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "fuzzy find in current file" })
+keymap.set("n", "<leader>fo", function()
+  require("telescope.builtin").live_grep({ grep_open_files = true })
+end, { desc = "Find string in open files" })
 
 -- restart lsp server (not on youtube nvim video)
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
 
 --setxkbmap -option caps:swapescape quit
-keymap.set("n", "<C-q>", ":qa<CR>")
-keymap.set("i", "<C-q>", "<cmd>qa<CR>")
+keymap.set("n", "<C-q>", function()
+  vim.api.nvim_command("SessionSave")
+  vim.api.nvim_command("qa")
+end, { silent = true })
+keymap.set("i", "<C-q>", function()
+  vim.api.nvim_command("SessionSave")
+  vim.api.nvim_command("qa")
+end, { silent = true })
 
--- save keymap.set("n", "<leader>s", "<cmd>silent w | echo 'saved'<CR>")
 keymap.set("n", "<C-s>", "<ESC><cmd>silent w | echo 'saved'<CR>")
 keymap.set("i", "<C-s>", "<ESC><cmd>silent w | echo 'saved'<CR>")
 
--- set keybinds
 opts.desc = "Show LSP references"
 keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
@@ -92,13 +105,13 @@ opts.desc = "Go to declaration"
 keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
 opts.desc = "Show LSP definitions"
-keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- show lsp definitions
+keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definitions
 
 opts.desc = "Show LSP implementations"
 keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
 opts.desc = "Show LSP type definitions"
-keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
+keymap.set("n", "gt", vim.lsp.buf.type_definition, opts) -- show lsp type definitions
 
 opts.desc = "See available code actions"
 keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
@@ -122,9 +135,7 @@ opts.desc = "Toggle DBUI"
 keymap.set("n", "<leader>p", "<cmd>Dbee<CR>", opts) -- show documentation for what is under cursor
 
 opts.desc = "Restart LSP"
-keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)   -- mapping to restart lsp if necessary
-
-keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>") -- smart rename
+keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
 opts.desc = "Organize Imports"
 keymap.set("n", "<leader>oi", function()
@@ -134,11 +145,4 @@ keymap.set("n", "<leader>oi", function()
   })
 end, opts)
 
-keymap.set("n", "zk", function()
-  local winid = require("ufo").peekFoldedLinesUnderCursor()
-  if not winid then
-    -- choose one of coc.nvim and nvim lsp
-    vim.fn.CocActionAsync("definitionHover") -- coc.nvim
-    vim.lsp.buf.hover()
-  end
-end)
+keymap.set("n", "<f3>", "<cmd>MaximizerToggle<CR>", opts)
