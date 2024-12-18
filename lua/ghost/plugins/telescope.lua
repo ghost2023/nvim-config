@@ -28,7 +28,7 @@ return {
           },
           prompt_position = "top",
         },
-        path_display = { "trunicate" },
+        path_display = "smart",
         mappings = {
           i = {
             ["<C-k>"] = actions.move_selection_previous, -- move to prev result
@@ -73,6 +73,9 @@ return {
             },
           },
         },
+      },
+      extensions = {
+        fzf = {},
       },
     })
 
