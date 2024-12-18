@@ -120,4 +120,22 @@ return {
     cmd = "MaximizerToggle",
   },
   { "ColinKennedy/cursor-text-objects.nvim" },
+  {
+    "folke/trouble.nvim",
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = "Trouble",
+  },
+  {
+    "stevearc/oil.nvim",
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      {
+        "echasnovski/mini.icons",
+        opts = {},
+    },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
 }
