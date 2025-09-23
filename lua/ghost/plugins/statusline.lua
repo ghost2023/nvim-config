@@ -1,4 +1,5 @@
 return {
+  {
   "nvim-lualine/lualine.nvim",
   event = "UIEnter",
   dependencies = {
@@ -58,6 +59,7 @@ return {
         disabled_filetypes = {
           "NvimTree",
           "alpha",
+          "avante"
         },
       },
       sections = {
@@ -68,19 +70,36 @@ return {
             path = 1,
             hide_filename_extension = true,
           },
-          "`diagnostics`",
         },
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {
+        lualine_c = {
 
-          "require'lsp-status'.status()",
+          'diagnostics',
         },
-        lualine_z = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {
+          'tabs',
+        },
       },
+
+      inactive_sections = {
+        lualine_a = {},
+        lualine_b = {
+          {
+            "filename",
+            file_status = true,
+            path = 1,
+            hide_filename_extension = true,
+          },
+        },
+
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      }
     })
   end,
-}
+} }
 
 -- -- import lualine plugin safely
 -- local status, lualine = pcall(require, "lualine")

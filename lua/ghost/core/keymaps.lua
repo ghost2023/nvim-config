@@ -69,7 +69,7 @@ keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>")
 keymap.set("n", "<leader>F", "<cmd>Telescope<cr>")              -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>ff", "<cmd>Telescope fd<cr>")          -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")     -- list open buffers in current neovim instance
+keymap.set("n", "<M-f>", "<cmd>Telescope buffers<cr>")          -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fe", "<cmd>Telescope resume<cr>")      -- resume telescope
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Find string in cwd" })
 keymap.set("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "Search Marks" })
@@ -78,23 +78,42 @@ keymap.set("n", "<leader>fp", "<cmd>Telescope commands<CR>", { desc = "Open comm
 keymap.set("n", "<leader>fh", "<cmd>Telescope command_history<CR>", { desc = "Open history of commands" })
 keymap.set("n", "<leader>fy", "<cmd>Telescope search_history<CR>", { desc = "Open history of commands" })
 keymap.set("n", "<leader>fg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "fuzzy find in current file" })
-keymap.set("n", "<leader>ft", function()
-  require("trouble.sources.telescope").open()
-end, { desc = "Open trouble list" })
+opts.desc = "Show buffer diagnostics"
+keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 keymap.set("n", "<leader>fo", function()
   require("telescope.builtin").live_grep({ grep_open_files = true })
 end, { desc = "Find string in open files" })
 
+-- lsp symbols
+keymap.set("n", "<leader>ss", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "Show LSP symbols" })
+keymap.set("n", "<leader>sd", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Show document LSP symbols" })
+keymap.set({ "i", "n" }, "<C-t>", "<cmd>Lspsaga finder<CR>", { desc = "Finder" })
+
 -- restart lsp server (not on youtube nvim video)
-keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
+keymap.set("n", "<leader>ls", ":LspRestart<CR>", {
+  desc = "restart lsp",
+})
+keymap.set("n", "<leader>ld", ":Lspsaga peek_definition<CR>", {
+  desc = "Lsp peek_definition",
+})
+keymap.set("n", "<leader>lt", ":Lspsaga peek_type_definition<CR>", {
+  desc = "Lsp peek_type_definition",
+})
+keymap.set("n", "<leader>lf", function()
+  local ft = vim.bo.ft
+  if ft == "javascript" or ft == "typescript" or ft == "javascriptreact" or ft == "typescriptreact" then
+    -- vim.cmd("TSToolsOrganizeImports")
+  else
+    vim.lsp.buf.format()
+  end
+  vim.cmd("silent! write")
+end) -- mapping to restart lsp if necessary
 
 --setxkbmap -option caps:swapescape quit
 keymap.set("n", "<C-q>", function()
-  vim.api.nvim_command("SessionSave")
   vim.api.nvim_command("qa")
 end, { silent = true })
 keymap.set("i", "<C-q>", function()
-  vim.api.nvim_command("SessionSave")
   vim.api.nvim_command("qa")
 end, { silent = true })
 
@@ -108,7 +127,7 @@ opts.desc = "Go to declaration"
 keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
 opts.desc = "Show LSP definitions"
-keymap.set("n", "gd", vim.lsp.buf.definition, opts) -- show lsp definitions
+keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- show lsp definitions
 
 opts.desc = "Show LSP implementations"
 keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
@@ -122,11 +141,8 @@ keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see avail
 opts.desc = "Smart rename"
 keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
-opts.desc = "Show buffer diagnostics"
-keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-opts.desc = "Show line diagnostics"
-keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+opts.desc = "Show cursor diagnostics"
+keymap.set("n", "<leader>d", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
 
 opts.desc = "Go to previous diagnostic"
 keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
@@ -137,8 +153,14 @@ keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic
 opts.desc = "Toggle DBUI"
 keymap.set("n", "<leader>p", "<cmd>Dbee<CR>", opts) -- show documentation for what is under cursor
 
+opts.desc = "Hover Doc"
+vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>")
 opts.desc = "Restart LSP"
-keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+keymap.set("n", "<leader>ls", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+-- file tree
+keymap.set("n", "<M-e>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })                           -- toggle file explorer
+keymap.set("n", "<M-S-e>", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
 
 opts.desc = "Organize Imports"
 keymap.set("n", "<leader>oi", function()
@@ -149,3 +171,13 @@ keymap.set("n", "<leader>oi", function()
 end, opts)
 
 keymap.set("n", "<f3>", "<cmd>MaximizerToggle<CR>", opts)
+keymap.set("n", "<f9>", "<cmd>ToggleTerm direction=float<CR>", opts)
+keymap.set("t", "<f9>", "<cmd>ToggleTerm direction=float<CR>", opts)
+
+vim.api.nvim_set_keymap("i", "<C-d>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-d>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("i", "<C-f>", "<Plug>luasnip-prev-choice", {})
+vim.api.nvim_set_keymap("s", "<C-f>", "<Plug>luasnip-prev-choice", {})
+
+opts.desc = "Show Lspsaga outline"
+vim.api.nvim_set_keymap("n", "<leader>ol", "<cmd>Lspsaga outline<CR>", {})

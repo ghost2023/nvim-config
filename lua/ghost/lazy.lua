@@ -15,6 +15,10 @@ require("lazy").setup({ { import = "ghost.plugins" }, { import = "ghost.plugins.
   install = {
     colorscheme = { "hybrid" },
   },
+
+    rocks = {
+        hererocks = true,
+    },
   checker = {
     enabled = true,
     notify = false,

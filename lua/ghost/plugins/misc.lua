@@ -1,7 +1,19 @@
 return {
   {
-    "karb94/neoscroll.nvim",
-    event = "VeryLazy",
+    "echasnovski/mini.pairs",
+    version = "*",
+    opts = {
+      modes = { insert = true, command = true, terminal = false },
+      -- skip autopair when next character is one of these
+      skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
+      -- skip autopair when the cursor is inside these treesitter nodes
+      skip_ts = { "string" },
+      -- skip autopair when next character is closing pair
+      -- and there are more closing pairs than opening pairs
+      skip_unbalanced = true,
+      -- better deal with markdown code blocks
+      markdown = true,
+    },
   },
   {
     "moll/vim-bbye",
@@ -14,7 +26,7 @@ return {
 
   {
     "kndndrj/nvim-dbee",
-    -- event = "VeryLazy",
+    event = "VeryLazy",
     cmd = "Dbee",
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -40,103 +52,92 @@ return {
       })
 
       vim.api.nvim_create_user_command("Dbee", function()
-        vim.api.nvim_command("tabnew")
         require("dbee").toggle()
       end, { force = true })
     end,
   },
-  { "echasnovski/mini.icons", version = false, event = "UIEnter" },
-  { "nvchad/volt",            lazy = true },
-  {
-    "nvchad/minty",
-    cmd = { "MintyHue", "MintyShade" },
-    config = function()
-      vim.api.nvim_create_user_command("MintyHue", function()
-        require("minty.huefy").open()
-      end, {})
-
-      vim.api.nvim_create_user_command("MintyShade", function()
-        require("minty.shades").open()
-      end, {})
-    end,
-  },
-
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
-    "akinsho/flutter-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "stevearc/dressing.nvim" },
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("flutter-tools").setup({
-        -- (uncomment below line for windows only)
-        -- flutter_path = "home/flutter/bin/flutter.bat",
-
-        debugger = {
-          -- make these two params true to enable debug mode
-          enabled = false,
-          run_via_dap = false,
-          register_configurations = function(_)
-            require("dap").adapters.dart = {
-              type = "executable",
-              command = vim.fn.stdpath("data") .. "/mason/bin/dart-debug-adapter",
-              args = { "flutter" },
-            }
-
-            require("dap").configurations.dart = {
-              {
-                type = "dart",
-                request = "launch",
-                name = "Launch flutter",
-                dartSdkPath = "home/flutter/bin/cache/dart-sdk/",
-                flutterSdkPath = "home/flutter",
-                program = "${workspaceFolder}/lib/main.dart",
-                cwd = "${workspaceFolder}",
-              },
-            }
-            -- uncomment below line if you've launch.json file already in your vscode setup
-            -- require("dap.ext.vscode").load_launchjs()
-          end,
-        },
-        dev_log = {
-          -- toggle it when you run without DAP
-          enabled = false,
-          open_cmd = "tabedit",
-        },
-      })
-      require("telescope").load_extension("flutter")
-    end,
-  },
-  -- for dart syntax hightling
-  {
-    "dart-lang/dart-vim-plugin",
-  },
-  { "ThePrimeagen/vim-be-good",             cmd = "VimBeGood" },
-  {
-    "https://github.com/szw/vim-maximizer",
-    cmd = "MaximizerToggle",
-  },
-  { "ColinKennedy/cursor-text-objects.nvim" },
   {
     "folke/trouble.nvim",
-    opts = {}, -- for default options, refer to the configuration section for custom setup.
     cmd = "Trouble",
   },
   {
-    "stevearc/oil.nvim",
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    opts = {},
-    -- Optional dependencies
+    "kristijanhusak/vim-dadbod-ui",
     dependencies = {
-      {
-        "echasnovski/mini.icons",
-        opts = {},
+      { "tpope/vim-dadbod",                     lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", lazy = true }, -- Optional
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      -- Your DBUI configuration
+      --
+      vim.g.db_ui_tmp_query_location = "~/queries"
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
+  { "akinsho/toggleterm.nvim", version = "*", cmd = "ToggleTerm", config = true },
+  {
+    "karb94/neoscroll.nvim",
+    opts = {
+      easing = "quadratic",
+      duration_multiplier = 0.8,
+    },
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
-    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+  },
+  {
+    "rest-nvim/rest.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      opts = function(_, opts)
+        opts.ensure_installed = opts.ensure_installed or {}
+        table.insert(opts.ensure_installed, "http")
+      end,
+    },
+    config = function()
+      vim.bo.formatexpr = ""
+      vim.bo.formatprg = "jq"
+      vim.g.rest_nvim = {
+        _log_level = vim.log.levels.DEBUG,
+        request = {
+          hooks = {
+            encode_url = false,
+          },
+        },
+      }
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "vnd.api+json",
+        callback = function(ev)
+          vim.bo[ev.buf].filetype = "json"
+        end,
+      })
+    end,
+  },
+  {
+    "3rd/image.nvim",
+    opts = {
+      backend = "kitty",
+      processor = "magick_cli",
+    },
+  },
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    opts = {
+      -- add any custom options here
+    },
   },
 }

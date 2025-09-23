@@ -54,12 +54,6 @@ return {
       },
     })
 
-    -- set keymaps
-    local keymap = vim.keymap                                                                                      -- for conciseness
-
-    keymap.set("n", "<M-e>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })                         -- toggle file explorer
-    keymap.set("n", "<M-S-e>", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
-
     local function open_nvim_tree(data)
       -- buffer is a [No Name]
       local no_name = data.file == "" and vim.bo[data.buf].buftype == ""

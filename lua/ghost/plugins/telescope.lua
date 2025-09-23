@@ -11,22 +11,24 @@ return {
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
 
+    telescope.load_extension("live_grep_args")
+    -- telescope.load_extension("fzf")
     telescope.setup({
       defaults = {
+        shorten_path = true,
         layout_strategy = "vertical",
         layout_config = {
           height = 0.99,
           -- width = 0.95,
           preview_cutoff = 0.10,
           horizontal = {
-            preview_width = 0.45,
-            results_width = 0.8,
+            preview_width = 0.6,
+            -- results_width = 0.8,
           },
-          vertical = {
-            mirror = true,
-          },
-          prompt_position = "top",
+          vertical = {},
+          -- prompt_position = "bottom",
         },
         path_display = "smart",
         mappings = {
@@ -35,17 +37,31 @@ return {
             ["<C-j>"] = actions.move_selection_next, -- move to next result
             ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
             ["jk"] = actions.close,
+            -- ["<C-h>"] = function(prompt_bufnr)
+            --   local picker = action_state.get_current_picker(prompt_bufnr)
+            --   local preview_win = picker.previewer and picker.previewer.state.winid
+            --   if preview_win then
+            --     vim.api.nvim_win_call(preview_win, function()
+            --       vim.cmd("normal! 2zh")
+            --     end)
+            --   end
+            -- end,
+            -- ["<C-l>"] = function(prompt_bufnr)
+            --   local picker = action_state.get_current_picker(prompt_bufnr)
+            --   local preview_win = picker.previewer and picker.previewer.state.winid
+            --   if preview_win then
+            --     vim.api.nvim_win_call(preview_win, function()
+            --       vim.cmd("normal! 2zl")
+            --     end)
+            --   end
+            -- end,
           },
         },
         file_ignore_patterns = {
-          "node_modules",
-          ".git",
-          ".expo",
-          ".next",
-          "dist",
           "%.png",
           "%.webp",
-          "%jpg",
+          "%.jpg",
+          "%.jpeg",
           "%.ttf",
           "%.otf",
           "%.otf",
@@ -61,10 +77,8 @@ return {
         colorscheme = {
           enable_preview = true,
         },
-        find_files = {
-          find_command = { "rg", "--files", "--hidden" },
-          hidden = true,
-        },
+        fd = {},
+
         buffers = {
           sort_lastused = true,
           mappings = {
@@ -78,8 +92,5 @@ return {
         fzf = {},
       },
     })
-
-    telescope.load_extension("live_grep_args")
-    telescope.load_extension("fzf")
   end,
 }

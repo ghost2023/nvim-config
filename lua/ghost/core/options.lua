@@ -12,9 +12,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.opt.fillchars = { eob = " " }
-
+vim.opt.laststatus = 3
 -- line numbers
 opt.relativenumber = true -- show relative line numbers
+opt.smoothscroll = true -- smooth scrolling
 
 opt.backup = false
 opt.backupcopy = "yes"
@@ -81,6 +82,8 @@ opt.guicursor = {
   "a:blinkwait700-blinkoff400-blinkon250",
 }
 
+vim.bo.formatprg = 'jq'
+
 local function check_if_modified()
   local current_buf = vim.api.nvim_get_current_buf()
   local original_content = vim.fn.systemlist("cat " .. vim.fn.expand("%"))
@@ -91,8 +94,16 @@ local function check_if_modified()
   end
 end
 
+
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'help', 'man' },
+  command = 'wincmd L',  -- move the help/man window to the far right
+})
+
 -- Run the check on every BufWritePost and TextChanged event
 vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged" }, {
   pattern = "*",
   callback = check_if_modified,
 })
+

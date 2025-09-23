@@ -42,30 +42,6 @@ return {
             node_decremental = "<bs>",
           },
         },
-        -- enable nvim-ts-context-commentstring plugin for commenting tsx and jsx
-        -- context_commentstring = {
-        -- 	enable = true,
-        -- 	enable_autocmd = false,
-        -- },
-      })
-
-      local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-      parser_config.blade = {
-        install_info = {
-          url = "https://github.com/EmranMR/tree-sitter-blade",
-          files = { "src/parser.c" },
-          branch = "main",
-        },
-        filetype = "blade"
-      }
-      -- Create an augroup for Blade filetype
-      vim.api.nvim_create_augroup("BladeFiletypeRelated", { clear = true })
-
-      -- Set the filetype for *.blade.php files to "blade"
-      vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-        group = "BladeFiletypeRelated",
-        pattern = "*.blade.php",
-        command = "set ft=blade",
       })
     end,
   },

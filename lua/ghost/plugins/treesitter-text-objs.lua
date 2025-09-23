@@ -3,18 +3,12 @@ return {
   event = "VeryLazy",
   config = function()
     require("nvim-treesitter.configs").setup({
+
       textobjects = {
         select = {
           enable = true,
-
-          -- Automatically jump forward to textobj, similar to targets.vim
           lookahead = true,
-
           keymaps = {
-            -- You can use the capture groups defined in textobjects.scm
-            ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
-            ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
-
             -- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
             ["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
             ["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
@@ -49,6 +43,10 @@ return {
               query = "@self_closing_element",
               desc = "Select outer part of a JSX self-closing element",
             },
+            ["ag"] = {
+              query = "@jsx_attribute",
+              desc = "Select outer part of a JSX attribute",
+            },
           },
         },
         swap = {
@@ -68,6 +66,7 @@ return {
             -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
             ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
             ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+            ["]n"] = { query = "@self_closing_element", desc = "Next self closing tag" },
           },
           goto_next_end = {
             ["]F"] = { query = "@call.outer", desc = "Next function call end" },
@@ -93,17 +92,5 @@ return {
         },
       },
     })
-
-    local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
-
-    -- vim way: ; goes to the direction you were moving.
-    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-    -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-    vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
-    vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
-    vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
-    vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
   end,
 }

@@ -8,10 +8,7 @@ return {
   },
   config = function()
     -- import lspsaga safely
-    local saga_status, saga = pcall(require, "lspsaga")
-    if not saga_status then
-      return
-    end
+    local saga = require("lspsaga")
 
     saga.setup({
       -- keybinds for navigation in lspsaga window
@@ -19,6 +16,10 @@ return {
       -- use enter to open file with definition preview
       definition = {
         edit = "<CR>",
+      },
+
+      light_blub = {
+        enable = false,
       },
       ui = {
         colors = {

@@ -1,4 +1,11 @@
 return {
+    {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+    enabled=false,
+  },
+
   {
     "dmmulroy/tsc.nvim",
     cmd = "TSC",
@@ -6,16 +13,5 @@ return {
       require("tsc").setup()
     end,
   },
-  {
-    "OlegGulevskyy/better-ts-errors.nvim",
-    dependencies = { "MunifTanjim/nui.nvim" },
-    ft = { "typescript", "typescriptreact" },
-    cmd = { "BetterTSErrors" },
-    config = {
-      keymaps = {
-        toggle = nil,
-        go_to_definition = nil,
-      },
-    },
-  },
+  { 'dmmulroy/ts-error-translator.nvim', config = function() require('ts-error-translator').setup() end },
 }
