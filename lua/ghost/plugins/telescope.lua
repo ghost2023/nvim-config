@@ -87,6 +87,38 @@ return {
             },
           },
         },
+        lsp_references = {
+          entry_maker = function(entry)
+            local Path = require("plenary.path")
+            local relpath = Path:new(entry.filename):make_relative(vim.loop.cwd())
+
+            local max_len = 80
+            if #relpath > max_len then
+              local parts = vim.split(relpath, "/", { trimempty = true })
+              for i = 1, #parts - 1 do
+                if #relpath <= max_len then
+                  break
+                end
+                if #parts[i] > 2 then
+                  parts[i] = parts[i]:sub(1, 2)
+                  relpath = table.concat(parts, "/")
+                end
+              end
+            end
+
+            local formatted = string.format("%s %d", relpath, entry.lnum)
+            return {
+              value = entry.text,
+              valid = true,
+              ordinal = entry.text,
+              display = formatted,
+              lnum = entry.lnum,
+              kind = entry.kind,
+              col = entry.col,
+              filename = entry.filename,
+            }
+          end,
+        },
       },
       extensions = {
         fzf = {},

@@ -4,6 +4,9 @@ return {
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
     enabled=false,
+    config = function()
+      vim.lsp.enable("ts_ls", false)
+    end,
   },
 
   {

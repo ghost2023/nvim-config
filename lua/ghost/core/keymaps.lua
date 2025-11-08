@@ -10,7 +10,8 @@ local opts = { noremap = true, silent = true }
 
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
-keymap.set("t", "jk", "<C-\\><C-n>")
+
+ -- vim.api.nvim_set_keymap("t", "jk", "<ESC>", {'nowait'})
 
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
@@ -66,20 +67,17 @@ keymap.set("n", "<leader>ws", "<C-w>s")
 keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>")
 
 -- telescope
-keymap.set("n", "<leader>F", "<cmd>Telescope<cr>")              -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>ff", "<cmd>Telescope fd<cr>")          -- find files within current working directory, respects .gitignore
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
-keymap.set("n", "<M-f>", "<cmd>Telescope buffers<cr>")          -- list open buffers in current neovim instance
-keymap.set("n", "<leader>fe", "<cmd>Telescope resume<cr>")      -- resume telescope
-keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", { desc = "Find string in cwd" })
-keymap.set("n", "<leader>fm", "<cmd>Telescope marks<CR>", { desc = "Search Marks" })
-keymap.set("n", "<leader>fq", "<cmd>Telescope quickfix<CR>", { desc = "Open quickfix" })
-keymap.set("n", "<leader>fp", "<cmd>Telescope commands<CR>", { desc = "Open command palette" })
-keymap.set("n", "<leader>fh", "<cmd>Telescope command_history<CR>", { desc = "Open history of commands" })
-keymap.set("n", "<leader>fy", "<cmd>Telescope search_history<CR>", { desc = "Open history of commands" })
-keymap.set("n", "<leader>fg", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "fuzzy find in current file" })
+keymap.set("n", "<leader>F", "<cmd>FzfLua<cr>")              -- find files within current working directory, respects .gitignore
+keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>")          -- find files within current working directory, respects .gitignore
+keymap.set("n", "<leader>fc", "<cmd>FzfLua grep_cword<cr>") -- find string under cursor in current working directory
+keymap.set("n", "<M-f>", "<cmd>FzfLua buffers<cr>")          -- list open buffers in current neovim instance
+keymap.set("n", "<leader>fe", "<cmd>FzfLua resume<cr>")      -- resume telescope
+keymap.set("n", "<leader>fa", "<cmd>FzfLua git_status<cr>")      -- Show git status
+keymap.set("n", "<leader>fs", "<cmd>FzfLua live_grep<CR>", { desc = "Find string in cwd" })
+keymap.set("n", "<leader>fq", "<cmd>FzfLua quickfix<CR>", { desc = "Open quickfix" })
+keymap.set("n", "<leader>fp", "<cmd>FzfLua commands<CR>", { desc = "Open command palette" })
 opts.desc = "Show buffer diagnostics"
-keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
+keymap.set("n", "<leader>fd", "<cmd>FzfLua diagnostics_document<CR>", opts) -- show  diagnostics for file
 keymap.set("n", "<leader>fo", function()
   require("telescope.builtin").live_grep({ grep_open_files = true })
 end, { desc = "Find string in open files" })
@@ -121,7 +119,7 @@ keymap.set("n", "<C-s>", "<ESC><cmd>silent w | echo 'saved'<CR>")
 keymap.set("i", "<C-s>", "<ESC><cmd>silent w | echo 'saved'<CR>")
 
 opts.desc = "Show LSP references"
-keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+keymap.set("n", "gR", "<cmd>FzfLua lsp_references<CR>", opts) -- show definition, references
 
 opts.desc = "Go to declaration"
 keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration

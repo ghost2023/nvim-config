@@ -57,7 +57,7 @@ return {
         icon.get("default", "directory") .. " ❯ Open Explorer",
         "silent NvimTreeToggle<CR>"
       ),
-      dashboard.button("f", icon.get("default", "file") .. " ❯ Open File", ":Telescope find_files<CR>"),
+      dashboard.button("f", icon.get("default", "file") .. " ❯ Open File", ":FzfLua files<CR>"),
       dashboard.button("q", "✕ ❯ Quit Nvim", ":qa<CR>"),
     }
 
