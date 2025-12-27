@@ -86,15 +86,14 @@ return {
 		-- opts = {
 		-- },
 		config = function()
-			require("toggleterm").setup {
-        float_opts = {
+			require("toggleterm").setup({
+				float_opts = {
 
-        width = vim.o.columns - 2,
-        height = vim.o.lines - 3,
-        }
-
-      }
-    end,
+					width = vim.o.columns - 2,
+					height = vim.o.lines - 3,
+				},
+			})
+		end,
 	},
 	{
 		"karb94/neoscroll.nvim",
@@ -190,6 +189,51 @@ return {
 					require("neotest-vitest"),
 				},
 			})
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		opts = {}, -- for default options, refer to the configuration section for custom setup.
+		cmd = "Trouble",
+	},
+	{
+		"nvim-flutter/flutter-tools.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"stevearc/dressing.nvim", -- optional for vim.ui.select
+		},
+		config = function()
+			require("flutter-tools").setup({
+				dev_log = {
+					enabled = true,
+					filter = nil, -- optional callback to filter the log
+					-- takes a log_line as string argument; returns a boolean or nil;
+					-- the log_line is only added to the output if the function returns true
+					notify_errors = false, -- if there is an error whilst running then notify the user
+					open_cmd = "vsplit", -- command to use to open the log buffer
+					focus_on_open = true, -- focus on the newly opened log window
+				},
+			})
+
+			-- vim.api.nvim_create_autocmd("FileType", {
+			-- 	filetype = "log", -- filetype
+			-- 	callback = function()
+			-- 		vim.keymap.set("n", "q", "<cmd>FlutterLogToggle<CR>", {
+			-- 			buffer = true,
+			-- 			silent = true,
+			-- 		})
+			-- 	end,
+			-- })
+			-- vim.api.nvim_create_autocmd("FileType", {
+			-- 	filetype = "log", -- filetype
+			-- 	callback = function()
+			-- 		vim.keymap.set("n", "c", "<cmd>FlutterLogClear<CR>", {
+			-- 			buffer = true,
+			-- 			silent = true,
+			-- 		})
+			-- 	end,
+			-- })
 		end,
 	},
 }

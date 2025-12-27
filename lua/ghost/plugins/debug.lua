@@ -20,12 +20,11 @@ return {
         require("nvim-dap-virtual-text").setup()
       end,
     },
-    {
-      "microsoft/vscode-js-debug",
-      -- After install, build it and rename the dist directory to out
-      build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
-      version = "1.*",
-    },
+  --   {
+  --     "microsoft/vscode-js-debug",
+  --     -- After install, build it and rename the dist directory to out
+  -- run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out" ,
+  --   },
     {
       "mxsdev/nvim-dap-vscode-js",
       config = function()
@@ -33,6 +32,7 @@ return {
         require("dap-vscode-js").setup({
           -- Path of node executable. Defaults to $NODE_PATH, and then "node"
           -- node_path = "node",
+
 
           -- Path to vscode-js-debug installation.
           debugger_path = vim.fn.resolve(vim.fn.stdpath("data") .. "/lazy/vscode-js-debug"),
@@ -165,6 +165,15 @@ return {
           sourceMaps = true,
         },
         -- Debug web applications (client side)
+    {
+      type = "pwa-chrome",
+      request = "launch",
+      name = "CRA Chrome Debug",
+      url = "http://localhost:3000",
+      webRoot = "${workspaceFolder}/src",
+      sourceMaps = true,
+      userDataDir = false,
+    },
         {
           type = "pwa-chrome",
           request = "launch",

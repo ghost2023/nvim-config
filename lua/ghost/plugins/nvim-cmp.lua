@@ -13,6 +13,9 @@ return {
       "mikavilpas/blink-ripgrep.nvim",
       "onsails/lspkind.nvim", -- vs-code like pictograms
       "rafamadriz/friendly-snippets",
+
+
+{ 'MattiasMTS/cmp-dbee', opts = {} },
       {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
@@ -24,7 +27,6 @@ return {
     },
 
     version = "1.*",
-    build = "cargo build --release",
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -114,7 +116,7 @@ return {
           "nvim_lsp_signature_help",
         },
         per_filetype = {
-          sql = { "lsp", "snippets", "dadbod", "buffer" },
+          sql = { "lsp", "snippets", "dadbod", "dbee", "buffer" },
         },
         providers = {
           avante = {
@@ -129,6 +131,7 @@ return {
             },
           },
           dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          dbee = {name = 'cmp-dbee', module = 'blink.compat.source'},
           lsp = {
             score_offset = 1,
           },

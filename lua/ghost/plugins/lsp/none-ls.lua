@@ -38,7 +38,7 @@ return {
     vim.api.nvim_clear_autocmds({ group = augroup })
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = augroup,
-      pattern = { "*.ts", "*.js", "*.jsx", "*.tsx", "*.json", "*.html", ".css" },
+      pattern = { "*.ts", "*.js", "*.jsx", "*.tsx", "*.json", "*.html", ".css", ".dart" },
       callback = function()
         vim.lsp.buf.format()
         vim.cmd("silent! write")
