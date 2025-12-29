@@ -51,11 +51,6 @@ return {
 				local entries = {}
 				local seen = {}
 
-				-- Formatting helpers
-				-- We use a non-breaking space or a specific delimiter to separate metadata
-				local history_icon = utils.ansi_codes.yellow("⌛ ")
-				local cmd_icon = utils.ansi_codes.magenta(">  ")
-
 				-- 1. Get History (Newest first)
 				local history_string = vim.fn.execute("history cmd")
 				local history_list = vim.split(history_string, "\n")
@@ -64,7 +59,7 @@ return {
 					-- Parse: "  123  write" -> "write"
 					local cmd = history_list[i]:match("^%s*>?%s*%d+%s+(.+)$")
 					if cmd and not seen[cmd] then
-						table.insert(entries, history_icon .. cmd)
+						table.insert(entries,  cmd)
 						seen[cmd] = true
 					end
 				end
@@ -73,7 +68,7 @@ return {
 				local all_commands = vim.fn.getcompletion("", "command")
 				for _, cmd in ipairs(all_commands) do
 					if not seen[cmd] then
-						table.insert(entries, cmd_icon .. cmd)
+						table.insert(entries, cmd)
 						seen[cmd] = true
 					end
 				end
@@ -91,16 +86,16 @@ return {
 						["--nth"] = "2..",
 					},
 					actions = {
-						["default"] = function(selected)
+						["enter"] = function(selected)
 							-- Strip the icon/color before executing
 							-- Match: anything up to the first space, then capture the rest
-							local cmd = selected[1]:match("^.*?%s(.*)$")
+							local cmd = selected[1]
 							if cmd then
 								vim.cmd(cmd)
 							end
 						end,
 						["ctrl-e"] = function(selected)
-							local cmd = selected[1]:match("^.*?%s(.*)$")
+							local cmd = selected[1]
 							if cmd then
 								vim.api.nvim_feedkeys(":" .. cmd, "n", true)
 							end
