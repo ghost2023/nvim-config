@@ -76,6 +76,7 @@ keymap.set("n", "<leader>fa", "<cmd>FzfLua git_status<cr>")      -- Show git sta
 keymap.set("n", "<leader>fs", "<cmd>FzfLua live_grep<CR>", { desc = "Find string in cwd" })
 keymap.set("n", "<leader>fq", "<cmd>FzfLua quickfix<CR>", { desc = "Open quickfix" })
 keymap.set("n", "<leader>fp", "<cmd>FzfLua commands<CR>", { desc = "Open command palette" })
+
 opts.desc = "Show buffer diagnostics"
 keymap.set("n", "<leader>fd", "<cmd>FzfLua diagnostics_document<CR>", opts) -- show  diagnostics for file
 keymap.set("n", "<leader>fo", function()
