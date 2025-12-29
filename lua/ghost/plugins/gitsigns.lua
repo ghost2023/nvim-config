@@ -17,6 +17,9 @@ return {
       desc = "Go to previous git hunk",
     })
 
+    vim.keymap.set("n", "<leader>gs", "<cmd>Gitsigns stage_hunk<CR>", {
+      desc = "Gitsigns",
+    })
     vim.keymap.set("n", "<leader>gp", function()
       gitsigns.preview_hunk_inline()
     end, {

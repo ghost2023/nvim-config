@@ -86,9 +86,6 @@ return {
 						["--tiebreak"] = "index",
 						-- Enable ANSI color codes
 						["--ansi"] = true,
-						-- "2.." means: Ignore the 1st "word" (the icon) when searching
-						-- Search starts from the command name itself
-						["--nth"] = "2..",
 					},
 					actions = {
 						["enter"] = function(selected)
