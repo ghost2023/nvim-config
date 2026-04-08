@@ -216,24 +216,7 @@ return {
 				},
 			})
 
-			-- vim.api.nvim_create_autocmd("FileType", {
-			-- 	filetype = "log", -- filetype
-			-- 	callback = function()
-			-- 		vim.keymap.set("n", "q", "<cmd>FlutterLogToggle<CR>", {
-			-- 			buffer = true,
-			-- 			silent = true,
-			-- 		})
-			-- 	end,
-			-- })
-			-- vim.api.nvim_create_autocmd("FileType", {
-			-- 	filetype = "log", -- filetype
-			-- 	callback = function()
-			-- 		vim.keymap.set("n", "c", "<cmd>FlutterLogClear<CR>", {
-			-- 			buffer = true,
-			-- 			silent = true,
-			-- 		})
-			-- 	end,
-			-- })
+			vim.api.nvim_create_user_command("Fl", "<cmd>FlutterLogToggle<CR>", { desc = "Flutter Log Toggle" })
 		end,
 	},
 	{
@@ -266,6 +249,21 @@ return {
 					lsp_doc_border = false, -- add a border to hover docs and signature help
 				},
 			})
+		end,
+	},
+	{
+		"juselara1/tmutils.nvim",
+		dependencies = {
+			--NOTE: you can optionally add one of these dependencies if you
+			--want to use a custom selector different from the default vim.ui
+			--selector.
+
+			--"MunifTanjim/nui.nvim",
+			--"nvim-telescope/telescope.nvim"
+			--"vijaymarupudi/nvim-fzf"
+		},
+		config = function()
+			require("tmutils").setup({})
 		end,
 	},
 }

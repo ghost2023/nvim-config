@@ -5,6 +5,7 @@ return {
 			local fzf = require("fzf-lua")
 			local utils = require("fzf-lua.utils")
 			fzf.setup({
+				fzf_opts = { ["--cycle"] = true },
 				winopts = {
 					width = 0.90,
 					on_create = function(win)
@@ -26,6 +27,7 @@ return {
 					"yarn.lock",
 					"pnpm-lock.yaml",
 					"lazy-lock.json",
+					"pubspec.lock",
 					"package-lock.json",
 					"tsconfig.tsbuildinfo",
 				},
@@ -47,66 +49,6 @@ return {
 					},
 				},
 			})
-			local function custom_commands_picker()
-				local entries = {}
-				local seen = {}
-
-				-- Formatting helpers
-				-- We use a non-breaking space or a specific delimiter to separate metadata
-				-- local history_icon = utils.ansi_codes.yellow("⌛ ")
-				-- local cmd_icon = utils.ansi_codes.magenta(">  ")
-
-				-- 1. Get History (Newest first)
-				local history_string = vim.fn.execute("history cmd")
-				local history_list = vim.split(history_string, "\n")
-
-				for i = #history_list, 1, -1 do
-					-- Parse: "  123  write" -> "write"
-					local cmd = history_list[i]:match("^%s*>?%s*%d+%s+(.+)$")
-					if cmd and not seen[cmd] then
-						table.insert(entries,  utils.ansi_codes.yellow(cmd))
-						seen[cmd] = true
-					end
-				end
-
-				-- 2. Get All Commands
-				local all_commands = vim.fn.getcompletion("", "command")
-				for _, cmd in ipairs(all_commands) do
-					if not seen[cmd] then
-						table.insert(entries, utils.ansi_codes.green(cmd))
-						seen[cmd] = true
-					end
-				end
-
-				-- 3. Run Fzf
-				fzf.fzf_exec(entries, {
-					prompt = "Cmds> ",
-					fzf_opts = {
-						-- Prefer the order of the input (History first) when scores are equal
-						["--tiebreak"] = "index",
-						-- Enable ANSI color codes
-						["--ansi"] = true,
-					},
-					actions = {
-						["enter"] = function(selected)
-							-- Strip the icon/color before executing
-							-- Match: anything up to the first space, then capture the rest
-							local cmd, _ = utils.strip_ansi_coloring(selected[1])
-              vim.print("cmd", cmd)
-							if cmd then
-								vim.cmd(cmd)
-							end
-						end,
-						["ctrl-e"] = function(selected)
-							local cmd = selected[1]
-							if cmd then
-								vim.api.nvim_feedkeys(":" .. cmd, "n", true)
-							end
-						end,
-					},
-				})
-			end
-			vim.keymap.set({ "n", "i" }, "<leader><leader>", custom_commands_picker, { desc = "Open commands history " })
 		end,
 	},
 }

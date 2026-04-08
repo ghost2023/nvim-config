@@ -12,12 +12,10 @@ return {
 			"html",
 			"cssls",
 			"tailwindcss",
-			"clangd",
 			"lua_ls",
 			"gopls",
 			"emmet_ls",
 			"prismals",
-			"pyright",
 		}
 
 		mason_lspconfig.setup({
@@ -32,21 +30,76 @@ return {
 			showSuggestionsAsSnippets = false,
 		})
 
-		vim.lsp.enable("eslint", false)
-
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
-
 		vim.diagnostic.config({
 			float = { border = "single" },
 		})
-		vim.lsp.config("ts_ls", {
-			cmd = { "tsgo", "--lsp", "--stdio" },
+
+		local lspconfig = require("lspconfig")
+
+		local servers = vim.lsp.get_clients()
+
+		for _, config in ipairs(servers) do
+			-- passing config.capabilities to blink.cmp merges with the capabilities in your
+			-- `opts[server].capabilities, if you've defined it
+			config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+			lspconfig[config.name].setup(config)
+		end
+
+		-- vim.lsp.config("ts_ls", {
+		-- 	-- cmd = { "tsgo", "--lsp", "--stdio" },
+		-- 	settings = {
+		-- 		["js/ts"] = {
+		-- 			hover = {
+		-- 				maximumLength = 500,
+		-- 			},
+		-- 		},
+		-- 	},
+		--
+		-- 	init_options = {
+		-- 		preferences = {
+		-- 			includeInlayParameterNameHints = "all",
+		-- 			includeInlayPropertyDeclarationTypeHints = true,
+		-- 			includeInlayFunctionLikeReturnTypeHints = true,
+		-- 			includeInlayVariableTypeHints = true,
+		-- 		},
+		-- 	},
+		-- })
+
+		vim.lsp.config("vtsls", {
+			settings = {
+				typescript = {
+					format = { enable = false },
+					hover = {
+						maximumLength = 1000,
+					},
+				},
+				javascript = {
+					format = { enable = false },
+					hover = {
+						maximumLength = 1000,
+					},
+				},
+			},
+			init_options = {
+
+				javascript = {
+					hover = {
+						maximumLength = 1000,
+					},
+				},
+				typescript = {
+					tsserver = {
+						maxTsServerMemory = 8192,
+					},
+					hover = {
+						maximumLength = 1000,
+					},
+				},
+			},
 		})
-    -- vim.lsp.enable("ts_ls", false)
+
+		-- vim.lsp.config("tailwindcss", {
+		-- 	filetypes = { "html", "css", "scss", "tsx", "jsx" },
+		-- })
 	end,
 }
