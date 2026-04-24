@@ -24,6 +24,8 @@ opt.number = true -- shows absolute line number on cursor line (when relative nu
 opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 opt.undofile = true
 
+opt.modeline = false -- don't show modelines
+
 -- tabs & indentation
 opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
 opt.shiftwidth = 2 -- 2 spaces for indent width
