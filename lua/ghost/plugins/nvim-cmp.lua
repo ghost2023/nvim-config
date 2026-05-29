@@ -162,6 +162,6 @@ return {
 			},
 			fuzzy = { implementation = "rust" },
 		},
-  opts_extend = { "sources.default" }
+		opts_extend = { "sources.default" },
 	},
 }

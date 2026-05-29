@@ -65,36 +65,10 @@ return {
 		-- 	},
 		-- })
 
-		vim.lsp.config("vtsls", {
-			settings = {
-				typescript = {
-					format = { enable = false },
-					hover = {
-						maximumLength = 1000,
-					},
-				},
-				javascript = {
-					format = { enable = false },
-					hover = {
-						maximumLength = 1000,
-					},
-				},
-			},
-			init_options = {
-
-				javascript = {
-					hover = {
-						maximumLength = 1000,
-					},
-				},
-				typescript = {
-					tsserver = {
-						maxTsServerMemory = 8192,
-					},
-					hover = {
-						maximumLength = 1000,
-					},
-				},
+		vim.lsp.config("tsgo", {
+			-- cmd = { "tsgo", "--lsp", "--stdio" },
+			cmd_env = {
+				GOMEMLIMIT = "1.5GiB",
 			},
 		})
 

@@ -114,34 +114,6 @@ return {
 		},
 	},
 	{
-		"rest-nvim/rest.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			opts = function(_, opts)
-				opts.ensure_installed = opts.ensure_installed or {}
-				table.insert(opts.ensure_installed, "http")
-			end,
-		},
-		config = function()
-			vim.bo.formatexpr = ""
-			vim.bo.formatprg = "jq"
-			vim.g.rest_nvim = {
-				_log_level = vim.log.levels.DEBUG,
-				request = {
-					hooks = {
-						encode_url = false,
-					},
-				},
-			}
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "vnd.api+json",
-				callback = function(ev)
-					vim.bo[ev.buf].filetype = "json"
-				end,
-			})
-		end,
-	},
-	{
 		"3rd/image.nvim",
 		opts = {
 			backend = "kitty",
@@ -228,7 +200,14 @@ return {
 			-- OPTIONAL:
 			--   `nvim-notify` is only needed, if you want to use the notification view.
 			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
+			{
+				"rcarriga/nvim-notify",
+				config = function()
+					require("notify").setup({
+						top_down = false,
+					})
+				end,
+			},
 		},
 		config = function()
 			require("noice").setup({
