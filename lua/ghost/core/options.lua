@@ -86,25 +86,9 @@ opt.guicursor = {
 
 vim.bo.formatprg = "jq"
 
-local function check_if_modified()
-	local current_buf = vim.api.nvim_get_current_buf()
-	local original_content = vim.fn.systemlist("cat " .. vim.fn.expand("%"))
-	local current_content = vim.api.nvim_buf_get_lines(current_buf, 0, -1, false)
-
-	if vim.deep_equal(original_content, current_content) then
-		vim.api.nvim_set_option_value("modified", false, { buf = 0 })
-	end
-end
-
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "help", "man" },
 	command = "wincmd L", -- move the help/man window to the far right
-})
-
--- Run the check on every BufWritePost and TextChanged event
-vim.api.nvim_create_autocmd({ "BufWritePost", "TextChanged" }, {
-	pattern = "*",
-	callback = check_if_modified,
 })
 
 -- views can only be fully collapsed with the global statusline

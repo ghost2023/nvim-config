@@ -22,7 +22,7 @@ return {
 					max_results = 8,
 				},
 			},
-			{ "MattiasMTS/cmp-dbee", opts = {} },
+			{ "MattiasMTS/cmp-dbee", opts = {}, lazy = true },
 			{
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
@@ -119,6 +119,7 @@ return {
 					"fuzzy-path",
 					"avante",
 					"buffer",
+					-- "dadbod_grip",
 					"ripgrep",
 					"lazydev",
 					"nvim_lsp_signature_help",

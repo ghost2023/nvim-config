@@ -23,7 +23,15 @@ return {
 		"sindrets/diffview.nvim",
 		cmd = "DiffviewOpen",
 	},
-
+	-- {
+	-- 	"joryeugene/dadbod-grip.nvim",
+	-- 	version = "*",
+	-- 	config = function()
+	-- 		require("dadbod-grip").setup({
+	-- 			completion = false,
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"kndndrj/nvim-dbee",
 		event = "VeryLazy",
@@ -137,11 +145,8 @@ return {
 			"LazyGitFilter",
 			"LazyGitFilterCurrentFile",
 		},
-		-- optional for floating window border decoration
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
 		config = function()
+			vim.g.lazygit_floating_window_border_chars = { "", "", "", "", "", "", "", "" }
 			vim.g.lazygit_floating_window_scaling_factor = 1
 		end,
 		-- setting the keybinding for LazyGit with 'keys' is recommended in
@@ -149,19 +154,6 @@ return {
 		keys = {
 			{ "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
 		},
-	},
-	{
-		"nvim-neotest/neotest",
-		dependencies = {
-			"marilari88/neotest-vitest",
-		},
-		config = function()
-			require("neotest").setup({
-				adapters = {
-					require("neotest-vitest"),
-				},
-			})
-		end,
 	},
 	{
 		"folke/trouble.nvim",
@@ -228,21 +220,6 @@ return {
 					lsp_doc_border = false, -- add a border to hover docs and signature help
 				},
 			})
-		end,
-	},
-	{
-		"juselara1/tmutils.nvim",
-		dependencies = {
-			--NOTE: you can optionally add one of these dependencies if you
-			--want to use a custom selector different from the default vim.ui
-			--selector.
-
-			--"MunifTanjim/nui.nvim",
-			--"nvim-telescope/telescope.nvim"
-			--"vijaymarupudi/nvim-fzf"
-		},
-		config = function()
-			require("tmutils").setup({})
 		end,
 	},
 }

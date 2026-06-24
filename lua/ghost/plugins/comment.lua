@@ -2,6 +2,7 @@ return {
 	{ "nvim-mini/mini.comment", version = "*" },
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
 		config = function()
 			require("ts_context_commentstring").setup()
 			require("mini.comment").setup({

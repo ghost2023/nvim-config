@@ -33,45 +33,54 @@ return {
 		vim.diagnostic.config({
 			float = { border = "single" },
 		})
+		vim.lsp.config("vtsls", {
+			cmd = { "tsgo", "--lsp", "--stdio" },
+			-- settings = {
+			-- 	["js/ts"] = {
+			-- 		hover = {
+			-- 			maximumLength = 500,
+			-- 		},
+			-- 	},
+			-- },
+			--
+			-- init_options = {
+			-- 	preferences = {
+			-- 		includeInlayParameterNameHints = "all",
+			-- 		includeInlayPropertyDeclarationTypeHints = true,
+			-- 		includeInlayFunctionLikeReturnTypeHints = true,
+			-- 		includeInlayVariableTypeHints = true,
+			-- 	},
+			-- },
+		})
 
-		local lspconfig = require("lspconfig")
+		vim.lsp.config("ts_ls", {
+			cmd = { "tsgo", "--lsp", "--stdio" },
+			-- settings = {
+			-- 	["js/ts"] = {
+			-- 		hover = {
+			-- 			maximumLength = 500,
+			-- 		},
+			-- 	},
+			-- },
+			--
+			-- init_options = {
+			-- 	preferences = {
+			-- 		includeInlayParameterNameHints = "all",
+			-- 		includeInlayPropertyDeclarationTypeHints = true,
+			-- 		includeInlayFunctionLikeReturnTypeHints = true,
+			-- 		includeInlayVariableTypeHints = true,
+			-- 	},
+			-- },
+		})
 
-		local servers = vim.lsp.get_clients()
-
-		for _, config in ipairs(servers) do
-			-- passing config.capabilities to blink.cmp merges with the capabilities in your
-			-- `opts[server].capabilities, if you've defined it
-			config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-			lspconfig[config.name].setup(config)
-		end
-
-		-- vim.lsp.config("ts_ls", {
+		-- vim.lsp.config("tsgo", {
 		-- 	-- cmd = { "tsgo", "--lsp", "--stdio" },
-		-- 	settings = {
-		-- 		["js/ts"] = {
-		-- 			hover = {
-		-- 				maximumLength = 500,
-		-- 			},
-		-- 		},
-		-- 	},
-		--
-		-- 	init_options = {
-		-- 		preferences = {
-		-- 			includeInlayParameterNameHints = "all",
-		-- 			includeInlayPropertyDeclarationTypeHints = true,
-		-- 			includeInlayFunctionLikeReturnTypeHints = true,
-		-- 			includeInlayVariableTypeHints = true,
-		-- 		},
+		-- 	cmd_env = {
+		-- 		GOMEMLIMIT = "1.5GiB",
 		-- 	},
 		-- })
 
-		vim.lsp.config("tsgo", {
-			-- cmd = { "tsgo", "--lsp", "--stdio" },
-			cmd_env = {
-				GOMEMLIMIT = "1.5GiB",
-			},
-		})
-
+		vim.lsp.enable("oxlint")
 		-- vim.lsp.config("tailwindcss", {
 		-- 	filetypes = { "html", "css", "scss", "tsx", "jsx" },
 		-- })

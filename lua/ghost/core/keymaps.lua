@@ -66,6 +66,21 @@ keymap.set("n", "<leader>fs", "<cmd>FzfLua live_grep<CR>", { desc = "Find string
 keymap.set("n", "<leader>fq", "<cmd>FzfLua quickfix<CR>", { desc = "Open quickfix" })
 keymap.set("n", "<leader>fp", "<cmd>FzfLua commands<CR>", { desc = "Open command palette" })
 
+-- visual selection search with fzf-lua
+keymap.set("v", "<leader>fs", function()
+  local start = vim.api.nvim_buf_get_mark(0, "<")
+  local stop = vim.api.nvim_buf_get_mark(0, ">")
+  local lines = vim.api.nvim_buf_get_lines(0, start[1] - 1, stop[1], false)
+  if #lines == 0 then return end
+  lines[#lines] = string.sub(lines[#lines], 1, stop[2])
+  lines[1] = string.sub(lines[1], start[2] + 1)
+  require("fzf-lua").live_grep({ search = table.concat(lines, "\n") })
+end, { desc = "Grep for selected text" })
+
+-- visual */# to search selection (built-in, no fzf)
+keymap.set("v", "*", [["/y/<C-r>"<CR>]])
+keymap.set("v", "#", [["?y/<C-r>"<CR>]])
+
 opts.desc = "Show buffer diagnostics"
 keymap.set("n", "<leader>fd", "<cmd>FzfLua diagnostics_document<CR>", opts) -- show  diagnostics for file
 keymap.set("n", "<leader>fo", function()
