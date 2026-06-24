@@ -131,9 +131,18 @@ return {
 	{
 		"folke/persistence.nvim",
 		event = "BufReadPre", -- this will only start session saving when an actual file was opened
-		opts = {
-			-- add any custom options here
-		},
+		config = function()
+			require("persistence").setup({})
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "PersistenceSavePre",
+				callback = function()
+					-- If the tree is open, close it
+					if require("nvim-tree.view").is_visible() then
+						require("nvim-tree.view").close()
+					end
+				end,
+			})
+		end,
 	},
 	{
 		"kdheepak/lazygit.nvim",
