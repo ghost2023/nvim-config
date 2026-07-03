@@ -15,9 +15,6 @@ keymap.set("i", "jk", "<ESC>")
 
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
--- clear search highlights
-keymap.set("n", "<leader>nh", ":nohl<CR>")
-
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
 
@@ -68,24 +65,20 @@ keymap.set("n", "<leader>fp", "<cmd>FzfLua commands<CR>", { desc = "Open command
 
 -- visual selection search with fzf-lua
 keymap.set("v", "<leader>fs", function()
-  local start = vim.api.nvim_buf_get_mark(0, "<")
-  local stop = vim.api.nvim_buf_get_mark(0, ">")
-  local lines = vim.api.nvim_buf_get_lines(0, start[1] - 1, stop[1], false)
-  if #lines == 0 then return end
-  lines[#lines] = string.sub(lines[#lines], 1, stop[2])
-  lines[1] = string.sub(lines[1], start[2] + 1)
-  require("fzf-lua").live_grep({ search = table.concat(lines, "\n") })
+	local start = vim.api.nvim_buf_get_mark(0, "<")
+	local stop = vim.api.nvim_buf_get_mark(0, ">")
+	local lines = vim.api.nvim_buf_get_lines(0, start[1] - 1, stop[1], false)
+	if #lines == 0 then
+		return
+	end
+	lines[#lines] = string.sub(lines[#lines], 1, stop[2])
+	lines[1] = string.sub(lines[1], start[2] + 1)
+	require("fzf-lua").live_grep({ search = table.concat(lines, "\n") })
 end, { desc = "Grep for selected text" })
 
 -- visual */# to search selection (built-in, no fzf)
 keymap.set("v", "*", [["/y/<C-r>"<CR>]])
 keymap.set("v", "#", [["?y/<C-r>"<CR>]])
-
-opts.desc = "Show buffer diagnostics"
-keymap.set("n", "<leader>fd", "<cmd>FzfLua diagnostics_document<CR>", opts) -- show  diagnostics for file
-keymap.set("n", "<leader>fo", function()
-	require("telescope.builtin").live_grep({ grep_open_files = true })
-end, { desc = "Find string in open files" })
 
 -- lsp symbols
 keymap.set("n", "<leader>ss", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "Show LSP symbols" })

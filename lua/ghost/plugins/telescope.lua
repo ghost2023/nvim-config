@@ -19,19 +19,19 @@ return {
 			telescope.setup({
 				defaults = {
 					shorten_path = true,
-					layout_strategy = "vertical",
-					layout_config = {
-						height = 0.99,
-						-- width = 0.95,
-						preview_cutoff = 0.10,
-						horizontal = {
-							preview_width = 0.6,
-							-- results_width = 0.8,
-						},
-						vertical = {},
-						-- prompt_position = "bottom",
-					},
-					path_display = "smart",
+					-- layout_strategy = "center",
+					-- layout_config = {
+					-- 	height = 0.95,
+					-- 	-- width = 0.95,
+					-- 	preview_cutoff = 0.10,
+					-- 	horizontal = {
+					-- 		preview_width = 0.6,
+					-- 		-- results_width = 0.8,
+					-- 	},
+					-- 	vertical = {},
+					-- 	-- prompt_position = "bottom",
+					-- },
+					path_display = { "smart" },
 					mappings = {
 						i = {
 							["<C-k>"] = actions.move_selection_previous, -- move to prev result

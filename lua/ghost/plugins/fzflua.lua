@@ -3,7 +3,6 @@ return {
 		"ibhagwan/fzf-lua",
 		config = function()
 			local fzf = require("fzf-lua")
-			local utils = require("fzf-lua.utils")
 			fzf.setup({
 				fzf_opts = { ["--cycle"] = true },
 				winopts = {
@@ -35,6 +34,11 @@ return {
 				files = {
 					prompt = " ",
 					cwd_prompt = false,
+					previewer = "",
+					winopts = {
+						width = 0.70,
+						height = 0.80,
+					},
 				},
 				commands = {
 					sort_lastused = true,
