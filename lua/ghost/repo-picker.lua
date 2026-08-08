@@ -1,15 +1,11 @@
--- VSCode-style git detection for lazygit.nvim.
--- In a repo: opens lazygit normally.
--- Outside a repo: finds nearby repos (+ lazygit's recent list) and picks one.
+-- VSCode-style git detection for git-backed commands.
+-- In a repo: runs the command as-is.
+-- Outside a repo: finds nearby repos (+ lazygit's recent list) and picks one first.
 -- Mirrors the `lg` zsh function in ~/.config/zsh/lazygit-picker.zsh
 
 local M = {}
 
 local scan_depth = vim.g.lazygit_scan_depth or 4
-
-local function open(path)
-  require("lazygit").lazygit(path)
-end
 
 --- repo root containing `dir`, or nil
 local function git_root(dir)
@@ -79,37 +75,30 @@ local function recents()
   return out
 end
 
-function M.open()
+--- Resolve a repo, then hand it to `run(path)`.
+--- `path` is nil when the cwd is already a repo, i.e. "just use the cwd".
+function M.with_repo(run)
   local cwd = vim.fn.getcwd()
 
   -- already in a repo: nothing to choose
   if git_root(cwd) then
-    return open()
+    return run(nil)
   end
 
   local found = scan(cwd)
 
   -- exactly one repo below us: no point asking
   if #found == 1 then
-    return open(found[1])
+    return run(found[1])
   end
 
-  local choices = vim.deepcopy(found)
-  local seen = {}
-  for _, p in ipairs(choices) do
-    seen[p] = true
-  end
-  for _, p in ipairs(recents()) do
-    if not seen[p] then
-      seen[p] = true
-      table.insert(choices, p)
-    end
-  end
-
-  -- nothing below us: offer init first, recents still reachable
+  -- repos below us are what you meant; only fall back to lazygit's recent
+  -- list (headed by an init entry) when there's nothing here at all.
   local init_entry = "+ git init here  (" .. cwd .. ")"
+  local choices = found
   if #found == 0 then
-    table.insert(choices, 1, init_entry)
+    choices = { init_entry }
+    vim.list_extend(choices, recents())
   end
 
   if #choices == 0 then
@@ -138,9 +127,23 @@ function M.open()
         vim.notify("git init failed in " .. cwd, vim.log.levels.ERROR)
         return
       end
-      return open()
+      return run(nil)
     end
-    open(choice)
+    run(choice)
+  end)
+end
+
+--- <leader>lg — lazygit, repo-picked when cwd isn't one
+function M.lazygit()
+  M.with_repo(function(path)
+    require("lazygit").lazygit(path)
+  end)
+end
+
+--- <leader>fa — fzf-lua git_status, repo-picked when cwd isn't one
+function M.git_status()
+  M.with_repo(function(path)
+    require("fzf-lua").git_status(path and { cwd = path } or {})
   end)
 end
 

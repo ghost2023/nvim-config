@@ -58,7 +58,9 @@ keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>") -- find files within curr
 keymap.set("n", "<leader>fc", "<cmd>FzfLua grep_cword<cr>") -- find string under cursor in current working directory
 keymap.set("n", "<M-f>", "<cmd>FzfLua buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fe", "<cmd>FzfLua resume<cr>") -- resume telescope
-keymap.set("n", "<leader>fa", "<cmd>FzfLua git_status<cr>") -- Show git status
+keymap.set("n", "<leader>fa", function()
+	require("ghost.repo-picker").git_status()
+end, { desc = "Git status (pick repo if cwd isn't one)" })
 keymap.set("n", "<leader>fs", "<cmd>FzfLua live_grep<CR>", { desc = "Find string in cwd" })
 keymap.set("n", "<leader>fq", "<cmd>FzfLua quickfix<CR>", { desc = "Open quickfix" })
 keymap.set("n", "<leader>fp", "<cmd>FzfLua commands<CR>", { desc = "Open command palette" })

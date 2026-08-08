@@ -164,7 +164,7 @@ return {
 			{
 				"<leader>lg",
 				function()
-					require("ghost.lazygit-picker").open()
+					require("ghost.repo-picker").lazygit()
 				end,
 				desc = "LazyGit (pick repo if cwd isn't one)",
 			},
