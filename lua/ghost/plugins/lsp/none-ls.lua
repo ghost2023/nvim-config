@@ -8,7 +8,6 @@ return {
 	},
 	config = function()
 		local mason_null_ls = require("mason-null-ls")
-		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 		local null_ls = require("null-ls")
 
 		mason_null_ls.setup({
@@ -18,31 +17,28 @@ return {
 			},
 		})
 
-		-- for conciseness
-		local formatting = null_ls.builtins.formatting -- to setup formatters
-
 		-- configure null_ls
 		null_ls.setup({
 			sources = {
-				formatting.prettier,
+				-- formatting.prettier,
 				-- formatting.biome.with({
 				--   configurationPath= "~/.config/nvim/biome.json",
 				-- }),
-				formatting.stylua,
+				-- formatting.stylua,
 				-- require("none-ls.diagnostics.eslint_d"),
 			},
-			on_attach = function(client, bufnr)
-				if client.supports_method("textDocument/formatting") then
-					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						group = augroup,
-						buffer = bufnr,
-						callback = function()
-							vim.lsp.buf.format()
-						end,
-					})
-				end
-			end,
+			-- on_attach = function(client, bufnr)
+			-- 	if client.supports_method("textDocument/formatting") then
+			-- 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			-- 		vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 			group = augroup,
+			-- 			buffer = bufnr,
+			-- 			callback = function()
+			-- 				vim.lsp.buf.format()
+			-- 			end,
+			-- 		})
+			-- 	end
+			-- end,
 		})
 
 		-- -- configure format on save
