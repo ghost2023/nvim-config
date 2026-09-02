@@ -57,6 +57,7 @@ keymap.set("n", "<leader>F", "<cmd>FzfLua<cr>") -- find files within current wor
 keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>") -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>fc", "<cmd>FzfLua grep_cword<cr>") -- find string under cursor in current working directory
 keymap.set("n", "<M-f>", "<cmd>FzfLua buffers<cr>") -- list open buffers in current neovim instance
+keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>") -- alt-free alias (macOS Option sends glyphs, not Meta)
 keymap.set("n", "<leader>fe", "<cmd>FzfLua resume<cr>") -- resume telescope
 keymap.set("n", "<leader>fa", function()
 	require("ghost.repo-picker").git_status()
@@ -159,6 +160,8 @@ keymap.set("n", "<leader>ls", ":LspRestart<CR>", opts) -- mapping to restart lsp
 -- file tree
 keymap.set("n", "<M-e>", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
 keymap.set("n", "<M-S-e>", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
+keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+keymap.set("n", "<leader>E", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" })
 
 opts.desc = "Organize Imports"
 keymap.set("n", "<leader>oi", function()
