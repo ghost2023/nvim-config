@@ -143,10 +143,10 @@ opts.desc = "Show cursor diagnostics"
 keymap.set("n", "<leader>d", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
 
 opts.desc = "Go to previous diagnostic"
-keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
+keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts) -- jump to previous diagnostic in buffer
 
 opts.desc = "Go to next diagnostic"
-keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
+keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts) -- jump to next diagnostic in buffer
 
 opts.desc = "Toggle DBUI"
 keymap.set("n", "<leader>p", "<cmd>Dbee<CR>", opts) -- show documentation for what is under cursor
@@ -162,9 +162,9 @@ keymap.set("n", "<M-S-e>", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle f
 
 opts.desc = "Organize Imports"
 keymap.set("n", "<leader>oi", function()
-	vim.lsp.buf.execute_command({
-		command = "_typescript.organizeImports",
-		arguments = { vim.fn.expand("%:p") },
+	vim.lsp.buf.code_action({
+		context = { only = { "source.organizeImports" }, diagnostics = {} },
+		apply = true,
 	})
 end, opts)
 

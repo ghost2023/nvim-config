@@ -9,7 +9,6 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = {
-			"Kaiser-Yang/blink-cmp-avante",
 			"mikavilpas/blink-ripgrep.nvim",
 			"onsails/lspkind.nvim", -- vs-code like pictograms
 			"rafamadriz/friendly-snippets",
@@ -117,7 +116,6 @@ return {
 					"snippets",
 					"path",
 					"fuzzy-path",
-					"avante",
 					"buffer",
 					-- "dadbod_grip",
 					"ripgrep",

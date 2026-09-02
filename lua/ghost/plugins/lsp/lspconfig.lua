@@ -33,54 +33,53 @@ return {
 		vim.diagnostic.config({
 			float = { border = "single" },
 		})
-		vim.lsp.config("vtsls", {
-			cmd = { "tsgo", "--lsp", "--stdio" },
-			-- settings = {
-			-- 	["js/ts"] = {
-			-- 		hover = {
-			-- 			maximumLength = 500,
-			-- 		},
-			-- 	},
-			-- },
-			--
-			-- init_options = {
-			-- 	preferences = {
-			-- 		includeInlayParameterNameHints = "all",
-			-- 		includeInlayPropertyDeclarationTypeHints = true,
-			-- 		includeInlayFunctionLikeReturnTypeHints = true,
-			-- 		includeInlayVariableTypeHints = true,
-			-- 	},
-			-- },
-		})
-
-		vim.lsp.config("ts_ls", {
-			cmd = { "tsgo", "--lsp", "--stdio" },
-			-- settings = {
-			-- 	["js/ts"] = {
-			-- 		hover = {
-			-- 			maximumLength = 500,
-			-- 		},
-			-- 	},
-			-- },
-			--
-			-- init_options = {
-			-- 	preferences = {
-			-- 		includeInlayParameterNameHints = "all",
-			-- 		includeInlayPropertyDeclarationTypeHints = true,
-			-- 		includeInlayFunctionLikeReturnTypeHints = true,
-			-- 		includeInlayVariableTypeHints = true,
-			-- 	},
-			-- },
-		})
-
-		-- vim.lsp.config("tsgo", {
-		-- 	-- cmd = { "tsgo", "--lsp", "--stdio" },
-		-- 	cmd_env = {
-		-- 		GOMEMLIMIT = "1.5GiB",
+		-- vim.lsp.config("vtsls", {
+		-- 	cmd = { "tsgo", "--lsp", "--stdio" },
+		-- settings = {
+		-- 	["js/ts"] = {
+		-- 		hover = {
+		-- 			maximumLength = 500,
+		-- 		},
 		-- 	},
+		-- },
+		--
+		-- init_options = {
+		-- 	preferences = {
+		-- 		includeInlayParameterNameHints = "all",
+		-- 		includeInlayPropertyDeclarationTypeHints = true,
+		-- 		includeInlayFunctionLikeReturnTypeHints = true,
+		-- 		includeInlayVariableTypeHints = true,
+		-- 	},
+		-- },
 		-- })
 
-		vim.lsp.enable("oxlint")
+		vim.lsp.config("ts_ls", {
+			cmd = { "tsc", "--lsp", "--stdio" },
+			cmd_env = { GOMEMLIMIT = "3GiB", GOGC = "50" },
+			-- cmd_env = {
+			-- 	GOMEMLIMIT = "1.5GiB",
+			-- },
+			-- settings = {
+			-- 	["js/ts"] = {
+			-- 		hover = {
+			-- 			maximumLength = 500,
+			-- 		},
+			-- 	},
+			-- },
+			--
+			-- init_options = {
+			-- 	preferences = {
+			-- 		includeInlayParameterNameHints = "all",
+			-- 		includeInlayPropertyDeclarationTypeHints = true,
+			-- 		includeInlayFunctionLikeReturnTypeHints = true,
+			-- 		includeInlayVariableTypeHints = true,
+			-- 	},
+			-- },
+		})
+
+		if vim.fn.executable("oxlint") == 1 then
+			vim.lsp.enable("oxlint")
+		end
 		-- vim.lsp.config("tailwindcss", {
 		-- 	filetypes = { "html", "css", "scss", "tsx", "jsx" },
 		-- })

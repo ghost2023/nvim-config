@@ -1,96 +1,87 @@
 return {
-  "nvim-treesitter/nvim-treesitter-textobjects",
-  event = "VeryLazy",
-  config = function()
-    require("nvim-treesitter.configs").setup({
+	"nvim-treesitter/nvim-treesitter-textobjects",
+	branch = "main",
+	event = { "BufReadPre", "BufNewFile" },
+	init = function()
+		vim.g.no_plugin_maps = true -- built-in ftplugin maps steal ]m/[m
+	end,
+	config = function()
+		require("nvim-treesitter-textobjects").setup({
+			select = { lookahead = true },
+		})
 
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            -- works for javascript/typescript files (custom capture I created in after/queries/ecma/textobjects.scm)
-            ["a:"] = { query = "@property.outer", desc = "Select outer part of an object property" },
-            ["i:"] = { query = "@property.inner", desc = "Select inner part of an object property" },
-            ["l:"] = { query = "@property.lhs", desc = "Select left part of an object property" },
-            ["r:"] = { query = "@property.rhs", desc = "Select right part of an object property" },
+		local select = require("nvim-treesitter-textobjects.select")
+		local move = require("nvim-treesitter-textobjects.move")
 
-            ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
-            ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
+		-- custom captures live in after/queries/{ecma,jsx,tsx}/textobjects.scm
+		for lhs, capture in pairs({
+			["a:"] = "@property.outer",
+			["i:"] = "@property.inner",
+			["l:"] = "@property.lhs",
+			["r:"] = "@property.rhs",
+			["aa"] = "@parameter.outer",
+			["ia"] = "@parameter.inner",
+			["ai"] = "@conditional.outer",
+			["ii"] = "@conditional.inner",
+			["al"] = "@loop.outer",
+			["il"] = "@loop.inner",
+			["af"] = "@call.outer",
+			["if"] = "@call.inner",
+			["am"] = "@function.outer",
+			["im"] = "@function.inner",
+			["ac"] = "@class.outer",
+			["ic"] = "@class.inner",
+			["an"] = "@self_closing_element",
+			["ag"] = "@jsx_attribute",
+		}) do
+			vim.keymap.set({ "x", "o" }, lhs, function()
+				select.select_textobject(capture, "textobjects")
+			end, { desc = "Select " .. capture })
+		end
 
-            ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-            ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-
-            ["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
-            ["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
-
-            ["af"] = { query = "@call.outer", desc = "Select outer part of a function call" },
-            ["if"] = { query = "@call.inner", desc = "Select inner part of a function call" },
-
-            ["am"] = {
-              query = "@function.outer",
-              desc = "Select outer part of a method/function definition",
-            },
-            ["im"] = {
-              query = "@function.inner",
-              desc = "Select inner part of a method/function definition",
-            },
-
-            ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-
-            ["an"] = {
-              query = "@self_closing_element",
-              desc = "Select outer part of a JSX self-closing element",
-            },
-            ["ag"] = {
-              query = "@jsx_attribute",
-              desc = "Select outer part of a JSX attribute",
-            },
-          },
-        },
-        swap = {
-          enable = false,
-        },
-        move = {
-          enable = true,
-          set_jumps = true, -- whether to set jumps in the jumplist
-          goto_next_start = {
-            ["]f"] = { query = "@call.outer", desc = "Next function call start" },
-            ["]m"] = { query = "@function.outer", desc = "Next method/function def start" },
-            ["]c"] = { query = "@class.outer", desc = "Next class start" },
-            ["]i"] = { query = "@conditional.outer", desc = "Next conditional start" },
-            ["]l"] = { query = "@loop.outer", desc = "Next loop start" },
-
-            -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
-            -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
-            ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
-            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
-            ["]n"] = { query = "@self_closing_element", desc = "Next self closing tag" },
-          },
-          goto_next_end = {
-            ["]F"] = { query = "@call.outer", desc = "Next function call end" },
-            ["]M"] = { query = "@function.outer", desc = "Next method/function def end" },
-            ["]C"] = { query = "@class.outer", desc = "Next class end" },
-            ["]I"] = { query = "@conditional.outer", desc = "Next conditional end" },
-            ["]L"] = { query = "@loop.outer", desc = "Next loop end" },
-          },
-          goto_previous_start = {
-            ["[f"] = { query = "@call.outer", desc = "Prev function call start" },
-            ["[m"] = { query = "@function.outer", desc = "Prev method/function def start" },
-            ["[c"] = { query = "@class.outer", desc = "Prev class start" },
-            ["[i"] = { query = "@conditional.outer", desc = "Prev conditional start" },
-            ["[l"] = { query = "@loop.outer", desc = "Prev loop start" },
-          },
-          goto_previous_end = {
-            ["[F"] = { query = "@call.outer", desc = "Prev function call end" },
-            ["[M"] = { query = "@function.outer", desc = "Prev method/function def end" },
-            ["[C"] = { query = "@class.outer", desc = "Prev class end" },
-            ["[I"] = { query = "@conditional.outer", desc = "Prev conditional end" },
-            ["[L"] = { query = "@loop.outer", desc = "Prev loop end" },
-          },
-        },
-      },
-    })
-  end,
+		-- capture may be { query, query_group }
+		for fn, maps in pairs({
+			goto_next_start = {
+				["]f"] = "@call.outer",
+				["]m"] = "@function.outer",
+				["]c"] = "@class.outer",
+				["]i"] = "@conditional.outer",
+				["]l"] = "@loop.outer",
+				["]n"] = "@self_closing_element",
+				["]s"] = { "@local.scope", "locals" },
+				["]z"] = { "@fold", "folds" },
+			},
+			goto_next_end = {
+				["]F"] = "@call.outer",
+				["]M"] = "@function.outer",
+				["]C"] = "@class.outer",
+				["]I"] = "@conditional.outer",
+				["]L"] = "@loop.outer",
+			},
+			goto_previous_start = {
+				["[f"] = "@call.outer",
+				["[m"] = "@function.outer",
+				["[c"] = "@class.outer",
+				["[i"] = "@conditional.outer",
+				["[l"] = "@loop.outer",
+			},
+			goto_previous_end = {
+				["[F"] = "@call.outer",
+				["[M"] = "@function.outer",
+				["[C"] = "@class.outer",
+				["[I"] = "@conditional.outer",
+				["[L"] = "@loop.outer",
+			},
+		}) do
+			for lhs, capture in pairs(maps) do
+				local query, group = capture, "textobjects"
+				if type(capture) == "table" then
+					query, group = capture[1], capture[2]
+				end
+				vim.keymap.set({ "n", "x", "o" }, lhs, function()
+					move[fn](query, group)
+				end, { desc = fn .. " " .. query })
+			end
+		end
+	end,
 }

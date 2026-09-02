@@ -84,10 +84,6 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- opt.iskeyword:append("-") -- consider string-string as whole word
 vim.diagnostic.config({
 	virtual_text = true,
-})
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-	-- delay update diagnostics
 	update_in_insert = true,
 })
 

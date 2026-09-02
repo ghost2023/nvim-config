@@ -59,7 +59,6 @@ return {
 					disabled_filetypes = {
 						"NvimTree",
 						"alpha",
-						"avante",
 					},
 				},
 				sections = {
