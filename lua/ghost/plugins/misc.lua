@@ -176,29 +176,6 @@ return {
 		cmd = "Trouble",
 	},
 	{
-		"nvim-flutter/flutter-tools.nvim",
-		lazy = false,
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"stevearc/dressing.nvim", -- optional for vim.ui.select
-		},
-		config = function()
-			require("flutter-tools").setup({
-				dev_log = {
-					enabled = true,
-					filter = nil, -- optional callback to filter the log
-					-- takes a log_line as string argument; returns a boolean or nil;
-					-- the log_line is only added to the output if the function returns true
-					notify_errors = false, -- if there is an error whilst running then notify the user
-					open_cmd = "vsplit", -- command to use to open the log buffer
-					focus_on_open = true, -- focus on the newly opened log window
-				},
-			})
-
-			vim.api.nvim_create_user_command("Fl", "<cmd>FlutterLogToggle<CR>", { desc = "Flutter Log Toggle" })
-		end,
-	},
-	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
 		dependencies = {
@@ -245,45 +222,5 @@ return {
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {},
-	},
-	{
-		"3rd/diagram.nvim",
-		dependencies = {
-			{ "3rd/image.nvim", opts = {} }, -- you'd probably want to configure image.nvim manually instead of doing this
-		},
-		opts = { -- you can just pass {}, defaults below
-			events = {
-				render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
-				clear_buffer = { "BufLeave" },
-			},
-			renderer_options = {
-				mermaid = {
-					background = nil, -- nil | "transparent" | "white" | "#hex"
-					theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
-					scale = 1, -- nil | 1 (default) | 2  | 3 | ...
-					width = nil, -- nil | 800 | 400 | ...
-					height = nil, -- nil | 600 | 300 | ...
-					cli_args = nil, -- nil | { "--no-sandbox" } | { "-p", "/path/to/puppeteer" } | ...
-				},
-				plantuml = {
-					charset = nil,
-					cli_args = nil, -- nil | { "-Djava.awt.headless=true" } | ...
-				},
-				d2 = {
-					theme_id = nil,
-					dark_theme_id = nil,
-					scale = nil,
-					layout = nil,
-					sketch = nil,
-					cli_args = nil, -- nil | { "--pad", "0" } | ...
-				},
-				gnuplot = {
-					size = nil, -- nil | "800,600" | ...
-					font = nil, -- nil | "Arial,12" | ...
-					theme = nil, -- nil | "light" | "dark" | custom theme string
-					cli_args = nil, -- nil | { "-p" } | { "-c", "config.plt" } | ...
-				},
-			},
-		},
 	},
 }
