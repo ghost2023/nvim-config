@@ -34,7 +34,6 @@ return {
 	-- },
 	{
 		"kndndrj/nvim-dbee",
-		event = "VeryLazy",
 		cmd = "Dbee",
 		dependencies = {
 			"MunifTanjim/nui.nvim",
@@ -63,10 +62,6 @@ return {
 				require("dbee").toggle()
 			end, { force = true })
 		end,
-	},
-	{
-		"folke/trouble.nvim",
-		cmd = "Trouble",
 	},
 	{
 		"kristijanhusak/vim-dadbod-ui",
@@ -105,6 +100,7 @@ return {
 	},
 	{
 		"karb94/neoscroll.nvim",
+		event = "VeryLazy",
 		opts = {
 			easing = "quadratic",
 			duration_multiplier = 0.8,
@@ -123,6 +119,7 @@ return {
 	},
 	{
 		"3rd/image.nvim",
+		ft = "markdown",
 		opts = {
 			backend = "kitty",
 			processor = "magick_cli",
@@ -217,9 +214,8 @@ return {
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" }, -- if you use the mini.nvim suite
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
-		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+		ft = "markdown",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {},

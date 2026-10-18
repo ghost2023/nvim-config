@@ -12,31 +12,18 @@ return {
 			local saga = require("lspsaga")
 
 			saga.setup({
-				lightbulb = { ignore = { clients = { "dev-tools" } } },
+				lightbulb = { enable = false },
 				-- keybinds for navigation in lspsaga window
 				scroll_preview = { scroll_down = "<C-f>", scroll_up = "<C-b>" },
 				-- use enter to open file with definition preview
 				definition = {
 					edit = "<CR>",
 				},
-
-				light_blub = {
-					enable = false,
-				},
 				ui = {
 					colors = {
 						normal_bg = "#022746",
 					},
 				},
-			})
-		end,
-	},
-
-	{
-		"romus204/referencer.nvim",
-		config = function()
-			require("referencer").setup({
-				enable = false,
 			})
 		end,
 	},

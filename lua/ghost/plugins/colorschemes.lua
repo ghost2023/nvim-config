@@ -8,32 +8,32 @@ return {
 		priority = 1000,
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"catppuccin/nvim",
-		as = "catppuccin",
+		name = "catppuccin",
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"nanotech/jellybeans.vim",
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"folke/tokyonight.nvim",
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"rose-pine/neovim",
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"tiagovla/tokyodark.nvim",
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"projekt0n/github-nvim-theme",
 	},
 	{
-		event = "VeryLazy",
+		lazy = true,
 		"olimorris/onedarkpro.nvim",
 	},
 }

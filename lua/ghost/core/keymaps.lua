@@ -84,14 +84,12 @@ keymap.set("v", "*", [["/y/<C-r>"<CR>]])
 keymap.set("v", "#", [["?y/<C-r>"<CR>]])
 
 -- lsp symbols
-keymap.set("n", "<leader>ss", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "Show LSP symbols" })
-keymap.set("n", "<leader>sd", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Show document LSP symbols" })
+keymap.set("n", "<leader>ss", "<cmd>FzfLua lsp_live_workspace_symbols<CR>", { desc = "Show LSP symbols" })
+keymap.set("n", "<leader>sd", "<cmd>FzfLua lsp_document_symbols<CR>", { desc = "Show document LSP symbols" })
+keymap.set("n", "<leader>li", "<cmd>FzfLua lsp_incoming_calls<CR>", { desc = "LSP incoming calls" })
+keymap.set("n", "<leader>lo", "<cmd>FzfLua lsp_outgoing_calls<CR>", { desc = "LSP outgoing calls" })
 keymap.set({ "i", "n" }, "<C-t>", "<cmd>Lspsaga finder<CR>", { desc = "Finder" })
 
--- restart lsp server (not on youtube nvim video)
-keymap.set("n", "<leader>ls", ":LspRestart<CR>", {
-	desc = "restart lsp",
-})
 keymap.set("n", "<leader>ld", ":Lspsaga peek_definition<CR>", {
 	desc = "Lsp peek_definition",
 })
@@ -99,14 +97,9 @@ keymap.set("n", "<leader>lt", ":Lspsaga peek_type_definition<CR>", {
 	desc = "Lsp peek_type_definition",
 })
 keymap.set("n", "<leader>lf", function()
-	local ft = vim.bo.ft
-	if ft == "javascript" or ft == "typescript" or ft == "javascriptreact" or ft == "typescriptreact" then
-	-- vim.cmd("TSToolsOrganizeImports")
-	else
-		vim.lsp.buf.format()
-	end
+	require("conform").format({ lsp_format = "fallback" })
 	vim.cmd("silent! write")
-end) -- mapping to restart lsp if necessary
+end, { desc = "Format and save" })
 
 --setxkbmap -option caps:swapescape quit
 keymap.set("n", "<C-q>", function()
@@ -129,7 +122,7 @@ opts.desc = "Show LSP definitions"
 keymap.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- show lsp definitions
 
 opts.desc = "Show LSP implementations"
-keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+keymap.set("n", "gi", "<cmd>FzfLua lsp_implementations<CR>", opts) -- show lsp implementations
 
 opts.desc = "Show LSP type definitions"
 keymap.set("n", "gt", vim.lsp.buf.type_definition, opts) -- show lsp type definitions

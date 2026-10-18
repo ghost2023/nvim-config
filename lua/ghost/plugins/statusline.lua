@@ -2,9 +2,6 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "UIEnter",
-		dependencies = {
-			"nvim-lua/lsp-status.nvim",
-		},
 		config = function()
 			local lualine = require("lualine")
 

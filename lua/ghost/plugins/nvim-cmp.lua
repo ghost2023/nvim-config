@@ -8,9 +8,8 @@ return {
 	},
 	{
 		"saghen/blink.cmp",
+		event = { "InsertEnter", "CmdlineEnter" },
 		dependencies = {
-			"mikavilpas/blink-ripgrep.nvim",
-			"onsails/lspkind.nvim", -- vs-code like pictograms
 			"rafamadriz/friendly-snippets",
 
 			{
@@ -21,7 +20,6 @@ return {
 					max_results = 8,
 				},
 			},
-			{ "MattiasMTS/cmp-dbee", opts = {}, lazy = true },
 			{
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
@@ -58,6 +56,7 @@ return {
 				},
 			},
 			snippets = { preset = "luasnip" },
+			signature = { enabled = true },
 			keymap = {
 				preset = "default",
 				["<C-k>"] = { "select_prev", "fallback" },
@@ -117,41 +116,21 @@ return {
 					"path",
 					"fuzzy-path",
 					"buffer",
-					-- "dadbod_grip",
-					"ripgrep",
 					"lazydev",
-					"nvim_lsp_signature_help",
 				},
 				per_filetype = {
 					sql = { "lsp", "snippets", "dadbod", "dbee", "buffer" },
 				},
 				providers = {
-					avante = {
-						name = "Avante",
-						module = "blink-cmp-avante",
-					},
-					ripgrep = {
-						module = "blink-ripgrep",
-						name = "Ripgrep",
-						opts = {
-							pattern = "rg",
-						},
-					},
 					dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 					dbee = { name = "cmp-dbee", module = "blink.compat.source" },
 					lsp = {
 						score_offset = 1,
 					},
-					["nvim_lsp_signature_help"] = {
-						name = "nvim_lsp_signature_help",
-
-						module = "blink.compat.source",
-					},
-
 					lazydev = {
-						name = "lazydev",
-
-						module = "blink.compat.source",
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
 					},
 					["fuzzy-path"] = {
 						name = "Fuzzy Path",
@@ -163,4 +142,6 @@ return {
 		},
 		opts_extend = { "sources.default" },
 	},
+	-- off blink's deps: its setup requires all of nvim-dbee
+	{ "MattiasMTS/cmp-dbee", ft = "sql", opts = {} },
 }

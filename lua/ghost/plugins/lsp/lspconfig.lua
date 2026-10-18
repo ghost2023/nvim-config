@@ -21,8 +21,6 @@ return {
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = ensure_installed,
-			-- auto-install configured servers (with lspconfig)
-			automatic_installation = true, -- not the same as ensure_installed
 		})
 
 		vim.lsp.config("emmet_ls", {

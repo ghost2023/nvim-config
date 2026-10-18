@@ -1,6 +1,6 @@
 return {
   "kevinhwang91/nvim-ufo",
-  lazy = false,
+  event = { "BufReadPost", "BufNewFile" },
   dependencies = {
     "kevinhwang91/promise-async",
     {
@@ -23,14 +23,6 @@ return {
     vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
     vim.o.foldlevelstart = 99
     vim.o.foldenable = false
-
-    -- Tell the server the capability of foldingRange,
-    -- Neovim hasn't added foldingRange to default capabilities, users must add it manually
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true,
-    }
 
     -- Only depend on `nvim-treesitter/queries/filetype/folds.scm`,
     -- performance and stability are better than `foldmethod=nvim_treesitter#foldexpr()`

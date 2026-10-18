@@ -4,23 +4,10 @@ return {
 	config = function()
 		local nvimtree = require("nvim-tree")
 
-		-- recommended settings from nvim-tree documentation
-		vim.g.loaded_netrw = 1
-		vim.g.loaded_netrwPlugin = 1
 		vim.api.nvim_set_hl(0, "NvimTreeGitFileIgnoredHL", { fg = "#707070" })
 		-- configure nvim-tree
 		nvimtree.setup({
 			view = {
-				float = {
-					enable = false,
-					open_win_config = {
-						relative = "editor",
-						border = "rounded",
-						height = vim.api.nvim_list_uis()[1].height - 4,
-						width = 45,
-						col = vim.api.nvim_list_uis()[1].width - 45,
-					},
-				},
 				side = "right",
 				width = 45,
 			},

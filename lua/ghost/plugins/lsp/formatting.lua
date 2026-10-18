@@ -1,7 +1,11 @@
 return {
 	{
 		"stevearc/conform.nvim",
-		opts = {},
+		event = "BufWritePre",
+		cmd = "ConformInfo",
+		init = function()
+			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+		end,
 		config = function()
 			local conform = require("conform")
 			local ecma = { "oxfmt", "prettierd", "prettier" }
@@ -24,7 +28,6 @@ return {
 					lsp_format = "fallback",
 				},
 			})
-			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
 	},
 }

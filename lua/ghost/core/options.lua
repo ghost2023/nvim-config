@@ -84,7 +84,7 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- opt.iskeyword:append("-") -- consider string-string as whole word
 vim.diagnostic.config({
 	virtual_text = true,
-	update_in_insert = true,
+	update_in_insert = false,
 })
 
 opt.whichwrap:append("<,>,[,],h,l")
@@ -99,7 +99,9 @@ opt.guicursor = {
 	"a:blinkwait700-blinkoff400-blinkon250",
 }
 
-vim.bo.formatprg = "jq"
+-- nvim-tree replaces netrw; must be set before plugins load
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "help", "man" },
