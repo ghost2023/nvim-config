@@ -1,8 +1,5 @@
 return {
 	{
-		"yarospace/dev-tools.nvim",
-	},
-	{
 		"glepnir/lspsaga.nvim",
 		event = { "BufReadPre", "BufNewFile" },
 		branch = "main",

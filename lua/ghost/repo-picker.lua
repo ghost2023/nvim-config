@@ -1,11 +1,38 @@
 -- VSCode-style git detection for git-backed commands.
 -- In a repo: runs the command as-is.
--- Outside a repo: finds nearby repos (+ lazygit's recent list) and picks one first.
--- Mirrors the `lg` zsh function in ~/.config/zsh/lazygit-picker.zsh
+-- Outside a repo: finds nearby repos and picks one, remembering the choice per-dir.
+-- Mirrors the `lg` zsh function in ~/.config/zsh/lazygit-picker.zsh — same memo file.
 
 local M = {}
 
 local scan_depth = vim.g.lazygit_scan_depth or 4
+local memo = vim.fn.expand("~/.local/state/repo-picker") -- TSV: cwd<TAB>repo
+
+--- repo previously picked for `cwd`, if it still exists
+local function recall(cwd)
+  if vim.fn.filereadable(memo) == 0 then
+    return nil
+  end
+  for _, line in ipairs(vim.fn.readfile(memo)) do
+    local k, v = line:match("^(.-)\t(.*)$")
+    if k == cwd and vim.fn.isdirectory(v) == 1 then
+      return v
+    end
+  end
+end
+
+local function remember(cwd, repo)
+  local out = { cwd .. "\t" .. repo }
+  if vim.fn.filereadable(memo) == 1 then
+    for _, line in ipairs(vim.fn.readfile(memo)) do
+      if not vim.startswith(line, cwd .. "\t") then
+        table.insert(out, line)
+      end
+    end
+  end
+  vim.fn.mkdir(vim.fn.fnamemodify(memo, ":h"), "p")
+  vim.fn.writefile(out, memo)
+end
 
 --- repo root containing `dir`, or nil
 local function git_root(dir)
@@ -77,12 +104,21 @@ end
 
 --- Resolve a repo, then hand it to `run(path)`.
 --- `path` is nil when the cwd is already a repo, i.e. "just use the cwd".
-function M.with_repo(run)
+--- `force` skips the remembered choice and re-opens the picker.
+function M.with_repo(run, force)
   local cwd = vim.fn.getcwd()
 
   -- already in a repo: nothing to choose
   if git_root(cwd) then
     return run(nil)
+  end
+
+  -- picked here before? just reopen it
+  if not force then
+    local last = recall(cwd)
+    if last then
+      return run(last)
+    end
   end
 
   local found = scan(cwd)
@@ -129,22 +165,23 @@ function M.with_repo(run)
       end
       return run(nil)
     end
+    remember(cwd, choice)
     run(choice)
   end)
 end
 
 --- <leader>lg — lazygit, repo-picked when cwd isn't one
-function M.lazygit()
+function M.lazygit(force)
   M.with_repo(function(path)
     require("lazygit").lazygit(path)
-  end)
+  end, force)
 end
 
 --- <leader>fa — fzf-lua git_status, repo-picked when cwd isn't one
-function M.git_status()
+function M.git_status(force)
   M.with_repo(function(path)
     require("fzf-lua").git_status(path and { cwd = path } or {})
-  end)
+  end, force)
 end
 
 return M
