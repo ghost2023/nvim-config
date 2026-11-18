@@ -119,9 +119,8 @@ return {
 	},
 	{
 		"3rd/image.nvim",
-		ft = "markdown",
+		-- ft = "markdown",
 		opts = {
-			backend = "kitty",
 			processor = "magick_cli",
 		},
 	},

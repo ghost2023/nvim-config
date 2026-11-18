@@ -27,6 +27,9 @@ return {
 			filetypes = { "html", "css", "sass", "scss", "less" },
 			showSuggestionsAsSnippets = false,
 		})
+		vim.lsp.config("qmlls", {
+			cmd = { "/usr/lib/qt6/bin/qmlls", "-I", "/usr/lib/qt6/qml" },
+		})
 
 		vim.diagnostic.config({
 			float = { border = "single" },
@@ -54,25 +57,35 @@ return {
 		vim.lsp.config("ts_ls", {
 			cmd = { "tsc", "--lsp", "--stdio" },
 			cmd_env = { GOMEMLIMIT = "3GiB", GOGC = "50" },
-			-- cmd_env = {
-			-- 	GOMEMLIMIT = "1.5GiB",
-			-- },
-			-- settings = {
-			-- 	["js/ts"] = {
-			-- 		hover = {
-			-- 			maximumLength = 500,
-			-- 		},
-			-- 	},
-			-- },
-			--
-			-- init_options = {
-			-- 	preferences = {
-			-- 		includeInlayParameterNameHints = "all",
-			-- 		includeInlayPropertyDeclarationTypeHints = true,
-			-- 		includeInlayFunctionLikeReturnTypeHints = true,
-			-- 		includeInlayVariableTypeHints = true,
-			-- 	},
-			-- },
+			settings = {
+				typescript = {
+					-- The project ships its own oRPC declaration contract (.gen/api),
+					-- so scanning package.json exports and auto-installing @types is
+					-- pure background work.
+					disableAutomaticTypeAcquisition = true,
+					preferences = {
+						includePackageJsonAutoImports = "off",
+					},
+					tsserver = {
+						maxTsServerMemory = 8192,
+						watchOptions = {
+							excludeDirectories = {
+								"**/.gen/**",
+								"**/dist/**",
+								"**/drizzle/**",
+								"**/test-results/**",
+								"**/.fallow/**",
+							},
+						},
+					},
+				},
+				javascript = {
+					disableAutomaticTypeAcquisition = true,
+					preferences = {
+						includePackageJsonAutoImports = "off",
+					},
+				},
+			},
 		})
 
 		if vim.fn.executable("oxlint") == 1 then
